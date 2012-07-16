@@ -14,11 +14,28 @@ static void	del_even(CList* li)
   CLink*	ln = li->first;
   Obj*		o;
 
-  for (; ln; ln = ln->next)
+  while (ln && !CList_empty(li))
+    {
+      o = ln->data;
+      if (o->v % 2)
+	ln = ln->next;
+      else
+	ln = CList_erase(ln);
+    }
+}
+
+static void	del_odd(CList* li)
+{
+  CLink*	ln = li->first;
+  Obj*		o;
+
+  while (ln && !CList_empty(li))
     {
       o = ln->data;
       if (o->v % 2 == 0)
-	CList_erase(CList_find_data(&l, o));
+	ln = ln->next;
+      else
+	ln = CList_erase(ln);
     }
 }
 
@@ -27,37 +44,38 @@ int		main(void)
   CList		l;
   Obj*		o;
   int		i;
+  int		lim = 1000;
 
   CList_init(&l, free);
   
-  for (i = 0; i < 1000; ++i)
+  for (i = 0; i < lim; ++i)
     {
       if (!(o = malloc(sizeof *o)))
-	{
-	  printf("malloc fail\n");
-	  break;
-	}
+	{printf("malloc fail\n"); break;}
       o->v = i;
-      CList_push_back(&l, o);
+      if (!CList_push_back(&l, o))
+	{printf("CList_push_back fail\n"); break;}
     }
 
-  for (i = 0; i > -1000; --i)
+  for (i = 0; i > -lim; --i)
     {
       if (!(o = malloc(sizeof *o)))
-	{
-	  printf("malloc fail\n");
-	  break;
-	}
+	{printf("malloc fail\n"); break;}
       o->v = i;
-      CList_push_front(&l, o);
+      if (!CList_push_front(&l, o))
+	{printf("CList_push_front fail\n"); break;}
     }
 
   CList_foreach(&l, show);
-  printf("\n--------------------\n");
+  printf("\n-------- size = %u ------------\n", CList_size(&l));
 
   del_even(&l);
-
   CList_foreach(&l, show);
+  printf("\n-------- size = %u ------------\n", CList_size(&l));
+
+  del_odd(&l);
+  CList_foreach(&l, show);
+  printf("\n-------- size = %u ------------\n", CList_size(&l));
 
   CList_clear(&l);
 
