@@ -1,14 +1,13 @@
 #include	<stdlib.h>
 #include	"CList.h"
 
-void		CList_pop_front(CList* li)
+CLink*		CList_pop_front(CList* li)
 {
-  CLink*	ln;
+  CLink*	ln = li->first;
 
-  if (!li->first)
-    return;
+  if (!ln)
+    return NULL;
   --li->length;
-  ln = li->first;
   if (!(li->first = ln->next))
     li->last = NULL;
   else
@@ -16,16 +15,16 @@ void		CList_pop_front(CList* li)
   if (li->des)
     li->des(ln->data);
   free(ln);
+  return li->first;
 }
 
-void		CList_pop_back(CList* li)
+CLink*		CList_pop_back(CList* li)
 {
-  CLink*	ln;
+  CLink*	ln = li->last;
 
-  if (!li->last)
-    return;
+  if (!ln)
+    return NULL;
   --li->length;
-  ln = li->last;
   if (!(li->last = ln->prev))
     li->first = NULL;
   else
@@ -33,6 +32,7 @@ void		CList_pop_back(CList* li)
   if (li->des)
     li->des(ln->data);
   free(ln);
+  return li->last;
 }
 
 CLink*		CList_erase(CLink* ln)
@@ -44,17 +44,14 @@ CLink*		CList_erase(CLink* ln)
     return NULL;
   li = ln->list;
   if (ln == li->first)
-    CList_pop_front(li);
-  else if (ln == li->last)
-    CList_pop_back(li);
-  else
-    {
-      ln->prev->next = ln_ret = ln->next;
-      ln->next->prev = ln->prev;
-      --li->length;
-      if (li->des)
-	li->des(ln->data);
-      free(ln);
-    }
+    return CList_pop_front(li);
+  if (ln == li->last)
+    return CList_pop_back(li);
+  ln->prev->next = ln_ret = ln->next;
+  ln->next->prev = ln->prev;
+  --li->length;
+  if (li->des)
+    li->des(ln->data);
+  free(ln);
   return ln_ret;
 }
