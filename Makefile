@@ -14,6 +14,7 @@ SRC		=	src/CList_init.c		\
 			src/CList_find_n_destroy.c	\
 			src/CList_foreach.c		\
 			src/CList_pop.c			\
+			src/CList_erase.c		\
 			src/CList_push.c		\
 
 OBJ		=	$(SRC:.c=.o)
