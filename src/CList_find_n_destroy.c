@@ -9,14 +9,12 @@ unsigned	CList_find_n_destroy(CList* li, void* data)
   while (ln)
     {
       ln_next = ln->next;
-      if (ln->data != data)
-	ln = ln->next;
-      else
+      if (ln->data == data)
 	{
 	  CList_erase(ln);
-	  ln = ln_next;
 	  ++u;
 	}
+      ln = ln_next;
     }
   return u;
 }
