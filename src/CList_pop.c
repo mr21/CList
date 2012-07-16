@@ -35,12 +35,13 @@ void		CList_pop_back(CList* li)
   free(ln);
 }
 
-void		CList_erase(CLink* ln)
+CLink*		CList_erase(CLink* ln)
 {
   CList*	li;
+  CLink*	ln_ret;
 
   if (!ln)
-    return;
+    return NULL;
   li = ln->list;
   if (ln == li->first)
     CList_pop_front(li);
@@ -48,11 +49,12 @@ void		CList_erase(CLink* ln)
     CList_pop_back(li);
   else
     {
-      ln->prev->next = ln->next;
+      ln->prev->next = ln_ret = ln->next;
       ln->next->prev = ln->prev;
       --li->length;
       if (li->des)
 	li->des(ln->data);
       free(ln);
     }
+  return ln_ret;
 }

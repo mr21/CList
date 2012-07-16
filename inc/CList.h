@@ -30,7 +30,7 @@ int			CList_push_back(CList*, void* data);
 /* Delete */
 void			CList_pop_front(CList*);
 void			CList_pop_back(CList*);
-void			CList_erase(CLink*);
+CLink*			CList_erase(CLink*);
 
 /* Find */
 unsigned		CList_find_n_destroy(CList*, void* data);
