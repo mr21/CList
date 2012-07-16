@@ -7,6 +7,8 @@ CFLAGS		+=	-Iinc/
 RM		=	@rm -f
 
 SRC		=	src/CList_init.c		\
+			src/CList_size.c		\
+			src/CList_empty.c		\
 			src/CList_clear.c		\
 			src/CList_find_data.c		\
 			src/CList_find_n_destroy.c	\
