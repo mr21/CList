@@ -2,8 +2,9 @@
 
 CLink*		CList_find_data(CList* li, void* data)
 {
-  CLink*	ln;
+  CLink*	ln = li->first;
 
-  for (ln = li->first; ln && ln->data != data; ln = ln->next);
+  while (ln && ln->data != data)
+    ln = ln->next;
   return ln;
 }
