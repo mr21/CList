@@ -14,5 +14,5 @@ void		CList_clear(CList* li)
       free(ln);
     }
   li->first = li->last = NULL;
-  li->length = 0;
+  li->size = 0;
 }

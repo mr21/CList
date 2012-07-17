@@ -2,5 +2,5 @@
 
 unsigned	CList_size(CList* li)
 {
-  return li->length;
+  return li->size;
 }

@@ -2,5 +2,5 @@
 
 int		CList_empty(CList* li)
 {
-  return !li->length;
+  return !li->size;
 }

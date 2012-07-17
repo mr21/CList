@@ -7,7 +7,7 @@ CLink*		CList_pop_front(CList* li)
 
   if (!ln)
     return NULL;
-  --li->length;
+  --li->size;
   if (!(li->first = ln->next))
     li->last = NULL;
   else
@@ -24,7 +24,7 @@ CLink*		CList_pop_back(CList* li)
 
   if (!ln)
     return NULL;
-  --li->length;
+  --li->size;
   if (!(li->last = ln->prev))
     li->first = NULL;
   else
