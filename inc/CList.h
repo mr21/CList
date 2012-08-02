@@ -19,8 +19,8 @@ struct			CLink
   CList*		list;
   CLink*		prev;
   CLink*		next;
-  void const*		ptr_data;
   void const*		data;
+  void const*		data_area;
 };
 
 /* CLink* getters */

@@ -13,7 +13,7 @@ CLink*		CList_pop_front(CList* li)
   else
     li->first->prev = NULL;
   if (li->des)
-    li->des(ln->ptr_data);
+    li->des(ln->data);
   free(ln);
   return li->first;
 }
@@ -30,7 +30,7 @@ CLink*		CList_pop_back(CList* li)
   else
     li->last->next = NULL;
   if (li->des)
-    li->des(ln->ptr_data);
+    li->des(ln->data);
   free(ln);
   return li->last;
 }

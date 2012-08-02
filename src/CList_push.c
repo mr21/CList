@@ -10,8 +10,14 @@ static CLink*	newLink(CList* li, void const* data, size_t sz)
     {
       new->list = li;
       new->prev = new->next = NULL;
-      sz && data ? memcpy(&new->data, data, sz) : (new->data = data);
-      new->ptr_data = sz ? &new->data : data;
+      if (!sz)
+	new->data = data;
+      else
+	{
+	  data ? memcpy(&new->data_area, data, sz) :
+	    memset(&new->data_area, 0, sz);
+	  new->data = &new->data_area;
+	}
       if (++li->size == 1)
 	li->first = li->last = new;
     }
