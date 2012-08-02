@@ -2,7 +2,7 @@
 
 unsigned	CList_find_n_destroy(CList* li, void const* data)
 {
-  CLink*	ln = li->first;
+  CLink*	ln = CList_begin(li);
   CLink*	ln_next;
   unsigned	u = 0;
 

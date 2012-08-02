@@ -3,34 +3,34 @@
 
 CLink*		CList_pop_front(CList* li)
 {
-  CLink*	ln = li->first;
+  CLink*	ln = li->begin;
 
   if (!ln)
     return NULL;
   --li->size;
-  if (!(li->first = ln->next))
-    li->last = NULL;
+  if (!(li->begin = ln->next))
+    li->end = NULL;
   else
-    li->first->prev = NULL;
+    li->begin->prev = NULL;
   if (li->des)
     li->des(ln->data);
   free(ln);
-  return li->first;
+  return li->begin;
 }
 
 CLink*		CList_pop_back(CList* li)
 {
-  CLink*	ln = li->last;
+  CLink*	ln = li->end;
 
   if (!ln)
     return NULL;
   --li->size;
-  if (!(li->last = ln->prev))
-    li->first = NULL;
+  if (!(li->end = ln->prev))
+    li->begin = NULL;
   else
-    li->last->next = NULL;
+    li->end->next = NULL;
   if (li->des)
     li->des(ln->data);
   free(ln);
-  return li->last;
+  return li->end;
 }

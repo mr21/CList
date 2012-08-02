@@ -3,7 +3,7 @@
 
 void		CList_init(CList* li, void (*des)())
 {
-  li->first = li->last = NULL;
+  li->begin = li->end = NULL;
   li->size = 0;
   li->des = des;
 }

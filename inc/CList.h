@@ -8,8 +8,8 @@ typedef	struct CList	CList;
 
 struct			CList
 {
-  CLink*		first;
-  CLink*		last;
+  CLink*		begin;
+  CLink*		end;
   size_t		size;
   void			(*des)();
 };

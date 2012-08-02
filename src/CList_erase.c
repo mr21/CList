@@ -9,9 +9,9 @@ CLink*		CList_erase(CLink* ln)
   if (!ln)
     return NULL;
   li = ln->list;
-  if (ln == li->first)
+  if (ln == li->begin)
     return CList_pop_front(li);
-  if (ln == li->last)
+  if (ln == li->end)
     return CList_pop_back(li);
   ln->prev->next = ln_ret = ln->next;
   ln->next->prev = ln->prev;

@@ -4,6 +4,6 @@ void		CList_foreach(CList const* li, void (*f)())
 {
   CLink*	ln;
 
-  for (ln = li->first; ln; ln = ln->next)
+  for (ln = CList_begin(li); ln; ln = ln->next)
     f(ln->data);
 }

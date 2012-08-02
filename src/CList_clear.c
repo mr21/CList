@@ -3,7 +3,7 @@
 
 void		CList_clear(CList* li)
 {
-  CLink*	ln = li->first;
+  CLink*	ln = li->begin;
   CLink*	tmp;
 
   for (; ln; ln = tmp)
@@ -13,6 +13,6 @@ void		CList_clear(CList* li)
 	li->des(ln->data);
       free(ln);
     }
-  li->first = li->last = NULL;
+  li->begin = li->end = NULL;
   li->size = 0;
 }
