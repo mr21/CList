@@ -1,25 +1,26 @@
 #include	<stdlib.h>
+#include	<string.h>
 #include	"CList.h"
 
-static CLink*	newLink(CList* li, void *data)
+static CLink*	newLink(CList* li, void* data, size_t sz)
 {
-  CLink*	new = malloc(sizeof *new);
+  CLink*	new = malloc(sizeof(*new) + sz);
 
   if (new)
     {
-      ++li->size;
       new->list = li;
-      new->data = data;
       new->prev = new->next = NULL;
-      if (!li->first)
+      sz && data ? memcpy(&new->data, data, sz) : (new->data = data);
+      new->ptr_data = sz ? &new->data : data;
+      if (++li->size == 1)
 	li->first = li->last = new;
     }
   return new;
 }
 
-CLink*		CList_push_front(CList* li, void *data)
+CLink*		CList_push_front(CList* li, void* data, size_t sz)
 {
-  CLink*	new = newLink(li, data);
+  CLink*	new = newLink(li, data, sz);
 
   if (new && li->size > 1)
     {
@@ -30,9 +31,9 @@ CLink*		CList_push_front(CList* li, void *data)
   return new;
 }
 
-CLink*		CList_push_back(CList* li, void *data)
+CLink*		CList_push_back(CList* li, void* data, size_t sz)
 {
-  CLink*	new = newLink(li, data);
+  CLink*	new = newLink(li, data, sz);
 
   if (new && li->size > 1)
     {

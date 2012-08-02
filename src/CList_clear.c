@@ -10,7 +10,7 @@ void		CList_clear(CList* li)
     {
       tmp = ln->next;
       if (li->des)
-	li->des(ln->data);
+	li->des(ln->ptr_data);
       free(ln);
     }
   li->first = li->last = NULL;

@@ -17,7 +17,7 @@ CLink*		CList_erase(CLink* ln)
   ln->next->prev = ln->prev;
   --li->size;
   if (li->des)
-    li->des(ln->data);
+    li->des(ln->ptr_data);
   free(ln);
   return ln_ret;
 }
