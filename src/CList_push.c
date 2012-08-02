@@ -2,7 +2,7 @@
 #include	<string.h>
 #include	"CList.h"
 
-static CLink*	newLink(CList* li, void* data, size_t sz)
+static CLink*	newLink(CList* li, void const* data, size_t sz)
 {
   CLink*	new = malloc(sizeof(*new) + sz);
 
@@ -18,7 +18,7 @@ static CLink*	newLink(CList* li, void* data, size_t sz)
   return new;
 }
 
-CLink*		CList_push_front(CList* li, void* data, size_t sz)
+CLink*		CList_push_front(CList* li, void const* data, size_t sz)
 {
   CLink*	new = newLink(li, data, sz);
 
@@ -31,7 +31,7 @@ CLink*		CList_push_front(CList* li, void* data, size_t sz)
   return new;
 }
 
-CLink*		CList_push_back(CList* li, void* data, size_t sz)
+CLink*		CList_push_back(CList* li, void const* data, size_t sz)
 {
   CLink*	new = newLink(li, data, sz);
 

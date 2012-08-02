@@ -1,6 +1,6 @@
 #include	"CList.h"
 
-void		CList_foreach(CList* li, void (*f)())
+void		CList_foreach(CList const* li, void (*f)())
 {
   CLink*	ln;
 

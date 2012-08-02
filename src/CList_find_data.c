@@ -1,6 +1,6 @@
 #include	"CList.h"
 
-CLink*		CList_find_data(CList* li, void* data)
+CLink*		CList_find_data(CList const* li, void const* data)
 {
   CLink*	ln = li->first;
 

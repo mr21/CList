@@ -1,6 +1,6 @@
 #include	"CList.h"
 
-unsigned	CList_find_n_destroy(CList* li, void* data)
+unsigned	CList_find_n_destroy(CList* li, void const* data)
 {
   CLink*	ln = li->first;
   CLink*	ln_next;
