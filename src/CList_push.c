@@ -14,9 +14,9 @@ static CLink*	newLink(CList* li, void* data, size_t sz)
 	new->data = data;
       else
 	{
-	  data ? memcpy(&new->data_area, data, sz) :
-	    memset(&new->data_area, 0, sz);
-	  new->data = &new->data_area;
+	  new->data = &new->data + 1;
+	  data ? memcpy(new->data, data, sz) :
+	    memset(new->data, 0, sz);
 	}
       if (++li->size == 1)
 	li->begin = li->end = new;

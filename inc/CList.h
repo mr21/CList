@@ -20,7 +20,6 @@ struct			CLink
   CLink*		prev;
   CLink*		next;
   void*			data;
-  void*			data_area;
 };
 
 /* CLink* getters */
