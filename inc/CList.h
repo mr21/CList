@@ -10,7 +10,7 @@ struct			CList
 {
   CLink*		first;
   CLink*		last;
-  unsigned		size;
+  size_t		size;
   void			(*des)();
 };
 
@@ -23,10 +23,19 @@ struct			CLink
   void const*		data;
 };
 
+/* CLink* getters */
+CList*			CList_list(CLink const*);
+CLink*			CList_prev(CLink const*);
+CLink*			CList_next(CLink const*);
+void*			CList_data(CLink const*);
+
+/* CList* getters */
 CLink*			CList_begin(CList const*);
-void			CList_clear(CList*);
-int			CList_empty(CList const*);
 CLink*			CList_end(CList const*);
+size_t			CList_size(CList const*);
+int			CList_empty(CList const*);
+
+void			CList_clear(CList*);
 CLink*			CList_erase(CLink*);
 CLink*			CList_find_data(CList const*, void const* data);
 unsigned		CList_find_n_destroy(CList*, void const* data);
@@ -36,6 +45,5 @@ CLink*			CList_pop_back(CList*);
 CLink*			CList_pop_front(CList*);
 CLink*			CList_push_back(CList*, void const* data, size_t);
 CLink*			CList_push_front(CList*, void const* data, size_t);
-unsigned		CList_size(CList const*);
 
 #endif
