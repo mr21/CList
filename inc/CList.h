@@ -19,8 +19,8 @@ struct			CLink
   CList*		list;
   CLink*		prev;
   CLink*		next;
-  void const*		data;
-  void const*		data_area;
+  void*			data;
+  void*			data_area;
 };
 
 /* CLink* getters */
@@ -43,7 +43,7 @@ void			CList_foreach(CList const*, void (*fun)());
 void			CList_init(CList*, void (*des)());
 CLink*			CList_pop_back(CList*);
 CLink*			CList_pop_front(CList*);
-CLink*			CList_push_back(CList*, void const* data, size_t);
-CLink*			CList_push_front(CList*, void const* data, size_t);
+CLink*			CList_push_back(CList*, void* data, size_t);
+CLink*			CList_push_front(CList*, void* data, size_t);
 
 #endif
