@@ -1,6 +1,6 @@
 #include	<stdlib.h>
 #include	"CList.h"
-
+/*
 CList*		CList_merge_back(CList* li, CList* la)
 {
   if (li && la && la->size)
@@ -26,3 +26,4 @@ CList*		CList_merge_front(CList* li, CList* la)
   free(la);
   return li;
 }
+*/
