@@ -11,6 +11,7 @@ SRC		=	src/CList_init.c		\
 			src/CList_list_getters.c	\
 			src/CList_clear.c		\
 			src/CList_foreach.c		\
+			src/CList_find.c		\
 			src/CList_pop.c			\
 			src/CList_erase.c		\
 			src/CList_push.c		\
