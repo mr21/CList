@@ -14,6 +14,13 @@ enum
 typedef	struct CLink	CLink;
 typedef	struct CList	CList;
 
+struct			CLink
+{
+  CLink*		prev;
+  CLink*		next;
+  void*			data;
+};
+
 struct			CList
 {
   CLink*		begin;
@@ -22,20 +29,11 @@ struct			CList
   void			(*des)();
 };
 
-struct			CLink
-{
-  CList*		list;
-  CLink*		prev;
-  CLink*		next;
-  void*			data;
-};
-
 /* Init & destroy */
 void			CList_init(CList*, void (*des)());
 void			CList_clear(CList*);
 
 /* CLink* [gs]etters */
-CList*			CLink_list(CLink const*);
 CLink*			CLink_prev(CLink const*);
 CLink*			CLink_next(CLink const*);
 void*			CLink_data(CLink const*);
