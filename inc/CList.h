@@ -51,12 +51,12 @@ CLink*			CList_push_back(CList*, void* data, size_t);
 CLink*			CList_push_front(CList*, void* data, size_t);
 
 /* Delete */
-CLink*			CList_erase(CLink*);
+CLink*			CList_erase(CList*, CLink*);
 CLink*			CList_pop_back(CList*);
 CLink*			CList_pop_front(CList*);
 
 /* Treatement */
-void			CList_foreach(CList const*, int (*fun)());
+void			CList_foreach(CList*, int (*fun)());
 
 /* Find */
 CLink*			CList_find_front(CList const*, void const*);
