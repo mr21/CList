@@ -1,9 +1,9 @@
 #include	<stdlib.h>
 #include	"CList.h"
 
-void		CList_init(CList* li, void (*des)())
+void		CList_init(CList* li, void (*destr)())
 {
   li->begin = li->end = NULL;
   li->size = 0;
-  li->des = des;
+  li->free = destr;
 }

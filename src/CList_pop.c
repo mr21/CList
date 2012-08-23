@@ -12,8 +12,8 @@ CLink*		CList_pop_front(CList* li)
     li->end = NULL;
   else
     li->begin->prev = NULL;
-  if (li->des)
-    li->des(ln->data);
+  if (ln->free)
+    ln->free(ln->data);
   free(ln);
   return li->begin;
 }
@@ -29,8 +29,8 @@ CLink*		CList_pop_back(CList* li)
     li->begin = NULL;
   else
     li->end->next = NULL;
-  if (li->des)
-    li->des(ln->data);
+  if (ln->free)
+    ln->free(ln->data);
   free(ln);
   return li->end;
 }

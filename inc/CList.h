@@ -3,7 +3,7 @@
 
 #include		<stddef.h>
 
-/* Valeur de retour pour le foreach : */
+/* ForEach's value */
 enum
 {
   CLIST_NEXT,  /* Une maniere de ne rien faire   */
@@ -19,6 +19,7 @@ struct			CLink
   CLink*		prev;
   CLink*		next;
   void*			data;
+  void			(*free)();
 };
 
 struct			CList
@@ -26,17 +27,18 @@ struct			CList
   CLink*		begin;
   CLink*		end;
   size_t		size;
-  void			(*des)();
+  void			(*free)();
 };
 
 /* Init & destroy */
-void			CList_init(CList*, void (*des)());
+void			CList_init(CList*, void (*destr)());
 void			CList_clear(CList*);
 
 /* CLink* [gs]etters */
 CLink*			CLink_prev(CLink const*);
 CLink*			CLink_next(CLink const*);
 void*			CLink_data(CLink const*);
+void			(*CLink_free(CLink const*))();
 
 /* CList* [gs]etters */
 CLink*			CList_begin(CList const*);
@@ -45,8 +47,8 @@ size_t			CList_size(CList const*);
 int			CList_empty(CList const*);
 
 /* Add */
-CLink*			CList_push_back(CList*, void* data, size_t);
-CLink*			CList_push_front(CList*, void* data, size_t);
+CLink*			CList_push_back(CList*, void* data, size_t, void (*destr)());
+CLink*			CList_push_front(CList*, void* data, size_t, void (*destr)());
 
 /* Delete */
 CLink*			CList_erase(CList*, CLink*);

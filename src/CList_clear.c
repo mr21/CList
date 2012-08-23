@@ -9,8 +9,8 @@ void		CList_clear(CList* li)
   for (; ln; ln = tmp)
     {
       tmp = ln->next;
-      if (li->des)
-	li->des(ln->data);
+      if (ln->free)
+	ln->free(ln->data);
       free(ln);
     }
   li->begin = li->end = NULL;

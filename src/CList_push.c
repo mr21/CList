@@ -2,12 +2,13 @@
 #include	<string.h>
 #include	"CList.h"
 
-static CLink*	newLink(CList* li, void* data, size_t sz)
+static CLink*	newLink(CList* li, void* data, size_t sz, void (*destr)())
 {
   CLink*	new = malloc(sizeof(*new) + sz);
 
   if (new)
     {
+      new->free = destr ? destr : li->free;
       new->prev = new->next = NULL;
       if (!sz)
 	new->data = data;
@@ -23,9 +24,9 @@ static CLink*	newLink(CList* li, void* data, size_t sz)
   return new;
 }
 
-CLink*		CList_push_front(CList* li, void* data, size_t sz)
+CLink*		CList_push_front(CList* li, void* data, size_t sz, void (*destr)())
 {
-  CLink*	new = newLink(li, data, sz);
+  CLink*	new = newLink(li, data, sz, destr);
 
   if (new && li->size > 1)
     {
@@ -36,9 +37,9 @@ CLink*		CList_push_front(CList* li, void* data, size_t sz)
   return new;
 }
 
-CLink*		CList_push_back(CList* li, void* data, size_t sz)
+CLink*		CList_push_back(CList* li, void* data, size_t sz, void (*destr)())
 {
-  CLink*	new = newLink(li, data, sz);
+  CLink*	new = newLink(li, data, sz, destr);
 
   if (new && li->size > 1)
     {
