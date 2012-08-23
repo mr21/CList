@@ -65,8 +65,8 @@ CLink*			CList_find_after(CLink const*, void const*);
 CLink*			CList_find_before(CLink const*, void const*);
 
 /* CList* & CList* */
-/*todo*/CList*			CList_cut_after(CList*, CLink const*, size_t);
-/*todo*/CList*			CList_merge_back(CList*, CList*);
-/*todo*/CList*			CList_merge_front(CList*, CList*);
+CList*			CList_merge_back(CList*, CList*);
+CList*			CList_merge_front(CList*, CList*);
+CList*			CList_cut_after(CList*, CLink const*, size_t); /* TODO */
 
 #endif
