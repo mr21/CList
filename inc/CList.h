@@ -35,10 +35,10 @@ void			CList_init(CList*, void (*des)());
 void			CList_clear(CList*);
 
 /* CLink* [gs]etters */
-CList*			CList_list(CLink const*);
-CLink*			CList_prev(CLink const*);
-CLink*			CList_next(CLink const*);
-void*			CList_data(CLink const*);
+CList*			CLink_list(CLink const*);
+CLink*			CLink_prev(CLink const*);
+CLink*			CLink_next(CLink const*);
+void*			CLink_data(CLink const*);
 
 /* CList* [gs]etters */
 CLink*			CList_begin(CList const*);

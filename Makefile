@@ -7,8 +7,8 @@ CFLAGS		+=	-Iinc/
 RM		=	@rm -f
 
 SRC		=	src/CList_init.c		\
-			src/CList_link_getters.c	\
-			src/CList_list_getters.c	\
+			src/CLink_getters.c		\
+			src/CList_getters.c		\
 			src/CList_clear.c		\
 			src/CList_foreach.c		\
 			src/CList_find.c		\
