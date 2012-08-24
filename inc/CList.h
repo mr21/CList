@@ -19,8 +19,8 @@ struct			CLink
 {
   CLink*		prev;
   CLink*		next;
-  void*			data;
   void			(*free)();
+  void*			data;
 };
 
 struct			CList
