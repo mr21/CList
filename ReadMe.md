@@ -6,16 +6,26 @@ J'essaye de faire en sorte qu'il puisse satisfaire tous les projets et inimagina
 
 Donc voici un mode d'emploi (**dont l'écriture n'est pas fini**) pour comment l'utiliser comme il faut toussa toussa.  
 
+Push / Add
+---------------------------------------------------------------------------------------------------------
+L'action la plus élémentaire est celle d'ajouter un maillon à une liste, c'est pourtant la plus complexe à bien comprendre... :S  
 
-Delete / Erase / Pop
+    /* Push / Add */
+    CLink*      CList_push_back(CList* list, void* data, size_t size, void (*destr)());
+    CLink*      CList_push_front(CList* list, void* data, size_t size, void (*destr)());
+
+D'une manière générale les nouveaux maillons se mettent à la fin ou au début de la liste, c'est pourquoi nous avons : _front_ et _back_.  
+
+
+Pop / Delete / Erase
 ---------------------------------------------------------------------------------------------------------
 Comment faire pour supprimer un maillon d'une liste ?  
 Il y a plusieurs methodes pour ça :
 
-    /* Delete */
-    CLink*                  CList_erase(CList*, CLink*);
-    CLink*                  CList_pop_back(CList*);
-    CLink*                  CList_pop_front(CList*);
+    /* Pop / Delete */
+    CLink*      CList_erase(CList*, CLink*);
+    CLink*      CList_pop_back(CList*);
+    CLink*      CList_pop_front(CList*);
 
 Si il s'agit de supprimer un maillon que nous avons en pointeur alors c'est **CList_erase** qu'il nous faut !  
 Elle prend en paramètre la liste et le maillon à supprimer.  
@@ -33,15 +43,15 @@ Pour rechercher un maillon dans toute une liste j'ai écris huit fonctions que v
 
     /* Find...            */
     /*     ...by pointer  */
-    CLink*                  CList_pfind_back(CList const*, void const*);
-    CLink*                  CList_pfind_front(CList const*, void const*);
-    CLink*                  CList_pfind_after(CLink const*, void const*);
-    CLink*                  CList_pfind_before(CLink const*, void const*);
+    CLink*      CList_pfind_back(CList const*, void const*);
+    CLink*      CList_pfind_front(CList const*, void const*);
+    CLink*      CList_pfind_after(CLink const*, void const*);
+    CLink*      CList_pfind_before(CLink const*, void const*);
     /*     ...by function */
-    CLink*                  CList_ffind_back(CList const*, int (*f)());
-    CLink*                  CList_ffind_front(CList const*, int (*f)());
-    CLink*                  CList_ffind_after(CLink const*, int (*f)());
-    CLink*                  CList_ffind_before(CLink const*, int (*f)());
+    CLink*      CList_ffind_back(CList const*, int (*f)());
+    CLink*      CList_ffind_front(CList const*, int (*f)());
+    CLink*      CList_ffind_after(CLink const*, int (*f)());
+    CLink*      CList_ffind_before(CLink const*, int (*f)());
 
 Ces huit fonctions se séparent en deux groupes :  
 * Rechercher un maillon via son **p**ointeur : _**p**find_
