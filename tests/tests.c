@@ -19,12 +19,22 @@ Obj*		o(int a, int b)
 int		opr(Obj* o)
 {
   printf("%p %d %d\n", (void*)o, o->a, o->b);
-  return CLIST_NEXT;
+  return CLIST_CONTINUE;
 }
 
 int		ocl(Obj* o)
 {
-  return o->b == 1337 ? CLIST_NEXT : CLIST_ERASE;
+  return o->b == 1337 ? CLIST_CONTINUE : CLIST_ERASE;
+}
+
+int		ofn2(Obj* o)
+{
+  return o->a == 2 ? CLIST_BREAK : CLIST_CONTINUE;
+}
+
+int		ofn3(Obj* o)
+{
+  return o->a == 3 ? CLIST_BREAK : CLIST_CONTINUE;
 }
 
 int		main(void)
@@ -58,13 +68,13 @@ int		main(void)
   CList_pop_back(li);
   printf("%d\n", ((Obj*)CList_end(li)->data)->b == 80);
   printf("%d\n", ((Obj*)CList_begin(li)->data)->b == -80);
-  printf("%d\n", CList_find_front(li, o0) == lno0 && CList_find_back(li, o0) == lno0);
-  printf("%d\n", CList_find_front(li, o1) == lno1 && CList_find_back(li, o1) == lno1);
-  printf("%d\n", CList_find_after(lno0, o1) == lno1 && CList_find_before(lno1, o0) == lno0);
-  printf("%d\n", CList_find_after(lno0, o0) == lno0 && CList_find_before(lno1, o1) == lno1);
+  printf("%d\n", CList_pfind_front(li, o0) == lno0 && CList_pfind_back(li, o0) == lno0);
+  printf("%d\n", CList_pfind_front(li, o1) == lno1 && CList_pfind_back(li, o1) == lno1);
+  printf("%d\n", CList_pfind_after(lno0, o1) == lno1 && CList_pfind_before(lno1, o0) == lno0);
+  printf("%d\n", CList_pfind_after(lno0, o0) == lno0 && CList_pfind_before(lno1, o1) == lno1);
   CList_erase(li, lno0);
-  printf("%d\n", CList_find_back(li, o0) == NULL);
-  printf("%d\n", CList_find_front(li, o1) == lno1 && CList_find_back(li, o1) == lno1);
+  printf("%d\n", CList_pfind_back(li, o0) == NULL);
+  printf("%d\n", CList_pfind_front(li, o1) == lno1 && CList_pfind_back(li, o1) == lno1);
   while (((Obj*)CLink_data(CList_end(li)))->b != 1337)
     CList_pop_back(li);
 
@@ -100,6 +110,12 @@ int		main(void)
   for (u = 1; u < 5; ++u)
     CList_push_back(la, o(-4, 40 + u), 0, NULL);
   CList_merge_before(li, li->end, la);
+  for (u = 1; u < 5; ++u)
+    CList_push_back(la, o(-3, 30 + u), 0, NULL);
+  CList_merge_after(li, CList_ffind_front(li, ofn3), la);
+  for (u = 1; u < 5; ++u)
+    CList_push_back(la, o(-2, 20 + u), 0, NULL);
+  CList_merge_before(li, CList_ffind_front(li, ofn2)->next, la);
 
   CList_foreach(li, opr);
 
