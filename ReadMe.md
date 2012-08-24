@@ -1,7 +1,7 @@
 **CList**
 =========================================================================================================
 
-CList est mon système de liste chaînée générique en C (d'ou **C**List (j'ai pas cherché vraiment loin...).  
+CList est mon système de liste chaînée générique en C (d'où **C**List (j'ai pas cherché vraiment loin...).  
 J'essaye de faire en sorte qu'il puisse satisfaire tous les projets et inimaginable (faut reussir à penser à tout, ce n'est pas fort simple, m'enfin..) !  
 
 Donc voici un mode d'emploi (**dont l'écriture n'est pas fini**) pour comment l'utiliser comme il faut toussa toussa.  
@@ -15,6 +15,12 @@ L'action la plus élémentaire est celle d'ajouter un maillon à une liste, c'es
     CLink*      CList_push_front(CList* list, void* data, size_t size, void (*destr)());
 
 D'une manière générale les nouveaux maillons se mettent à la fin ou au début de la liste, c'est pourquoi nous avons : _front_ et _back_.  
+Ces deux fonctions ont le même comportement et reçoivent chacune quatre arguments :  
+* __list__ : un pointeur vers la liste dans laquelle nous voulons mettre un nouveau maillon.
+* __data__ : un pointeur vers les données du nouveau maillon.
+* __size__ : le *sizeof* des données, mais **uniquement** si l'on souhaite que les data soient **ancrées** dans le maillon. Dans le cas le plus courant qui consiste à passer le retour d'un malloc, il faut mettre **0**. Tout ce système complexe pour se passer d'un malloc par maillon dans certain cas.
+* __destr__ : le destructeur, chaque maillon possede un pointeur vers un destructeur (pratique pour les merges de liste), dans le cas où vous envoyez le retour d'un malloc il vous suffit de mettre **free** ici.
+
 
 
 Pop / Delete / Erase
