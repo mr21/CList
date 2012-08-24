@@ -6,9 +6,10 @@
 /* ForEach's value */
 enum
 {
-  CLIST_NEXT,  /* Une maniere de ne rien faire   */
-  CLIST_STOP,  /* On stoppe la boucle (un break) */
-  CLIST_ERASE  /* On supprime le maillon actuel  */
+  CLIST_CONTINUE,  /* Une maniere de ne rien faire  */
+  CLIST_BREAK,     /* On stoppe la boucle           */
+  CLIST_ERASE,     /* On supprime le maillon actuel */
+  CLIST_ERASE_STOP /* On supprime et on s'arrete    */
 };
 
 typedef	struct CLink	CLink;
@@ -56,13 +57,17 @@ CLink*			CList_pop_back(CList*);
 CLink*			CList_pop_front(CList*);
 
 /* Treatement */
-void			CList_foreach(CList*, int (*fun)());
+void			CList_foreach(CList*, int (*f)());
 
 /* Find */
-CLink*			CList_find_back(CList const*, void const*);
-CLink*			CList_find_front(CList const*, void const*);
-CLink*			CList_find_after(CLink const*, void const*);
-CLink*			CList_find_before(CLink const*, void const*);
+CLink*			CList_pfind_back(CList const*, void const*);
+CLink*			CList_pfind_front(CList const*, void const*);
+CLink*			CList_pfind_after(CLink const*, void const*);
+CLink*			CList_pfind_before(CLink const*, void const*);
+CLink*			CList_ffind_back(CList const*, int (*f)());
+CLink*			CList_ffind_front(CList const*, int (*f)());
+CLink*			CList_ffind_after(CLink const*, int (*f)());
+CLink*			CList_ffind_before(CLink const*, int (*f)());
 
 /* Merge */
 CList*			CList_merge_back(CList*, CList*);
