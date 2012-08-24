@@ -22,6 +22,11 @@ int		opr(Obj* o)
   return CLIST_NEXT;
 }
 
+int		ocl(Obj* o)
+{
+  return o->b == 1337 ? CLIST_NEXT : CLIST_ERASE;
+}
+
 int		main(void)
 {
   CList		list0, *li = &list0;
@@ -83,6 +88,18 @@ int		main(void)
   CList_pop_front(li);
   CList_pop_back(li);
   printf("%d\n", ((Obj*)CLink_data(CList_begin(li)))->a == 8);
+
+  CList_foreach(li, ocl);
+  printf("%d\n", ((Obj*)CList_end(li)->data)->b == 1337 && ((Obj*)CList_begin(li)->data)->b == 1337);
+  for (u = 1; u < 5; ++u)
+    CList_push_back(la, o(u, 0), 0, NULL);
+  CList_merge_before(li, li->begin, la);
+  for (u = 1; u < 5; ++u)
+    CList_push_back(la, o(-1, 10 + u), 0, NULL);
+  CList_merge_after(li, li->begin, la);
+  for (u = 1; u < 5; ++u)
+    CList_push_back(la, o(-4, 40 + u), 0, NULL);
+  CList_merge_before(li, li->end, la);
 
   CList_foreach(li, opr);
 
