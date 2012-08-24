@@ -59,11 +59,13 @@ CLink*			CList_pop_front(CList*);
 /* Treatement */
 void			CList_foreach(CList*, int (*f)());
 
-/* Find */
+/* Find...            */
+/*     ...by pointer  */
 CLink*			CList_pfind_back(CList const*, void const*);
 CLink*			CList_pfind_front(CList const*, void const*);
 CLink*			CList_pfind_after(CLink const*, void const*);
 CLink*			CList_pfind_before(CLink const*, void const*);
+/*     ...by function */
 CLink*			CList_ffind_back(CList const*, int (*f)());
 CLink*			CList_ffind_front(CList const*, int (*f)());
 CLink*			CList_ffind_after(CLink const*, int (*f)());
@@ -75,6 +77,7 @@ CList*			CList_merge_front(CList*, CList*);
 CList*			CList_merge_after(CList*, CLink*, CList*);
 CList*			CList_merge_before(CList*, CLink*, CList*);
 
-CList*			CList_cut_after(CList*, CLink const*, size_t); /* TODO */
+/* Cut !!TODO!! */
+CList*			CList_cut_after(CList*, CLink const*, size_t);
 
 #endif
