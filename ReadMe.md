@@ -19,8 +19,24 @@ Ces deux fonctions ont le même comportement et reçoivent chacune quatre argume
 * __list__ : un pointeur vers la liste dans laquelle nous voulons mettre un nouveau maillon.
 * __data__ : un pointeur vers les données du nouveau maillon.
 * __size__ : le *sizeof* des données, mais **uniquement** si l'on souhaite que les data soient **ancrées** dans le maillon. Dans le cas le plus courant qui consiste à passer le retour d'un malloc, il faut mettre **0**. Tout ce système complexe pour se passer d'un malloc par maillon dans certain cas.
-* __destr__ : le destructeur, chaque maillon possede un pointeur vers un destructeur (pratique pour les merges de liste), dans le cas où vous envoyez le retour d'un malloc il vous suffit de mettre **free** ici.
+* __destr__ : le destructeur, chaque maillon possède un pointeur vers un destructeur (pratique pour les merges de liste), dans le cas où vous envoyez le retour d'un malloc il vous suffit de mettre **free** ici. Si vous ne voulez pas de destructeur pour votre maillon vous pouvez passer _NULL_, mais **attention** si vous passez _NULL_ le destructeur de la liste lui sera automatiquement assigné (sauf si vous avez aussi mis _NULL_ à **CList_init**).
 
+En résumé voici les deux exemples :  
+
+    int         main(void)
+    {
+        CList   li;
+        Objet*  obj_0 = malloc(sizeof *obj);
+        Objet   obj_1;
+    
+        CList_init(&li, NULL);
+    
+        CList_push_back(&li, obj_0, 0, free);
+        CList_push_back(&li, &obj_1, sizeof obj_1, NULL);
+    
+        CList_clear(&li);
+        return 0;
+    }
 
 
 Pop / Delete / Erase
