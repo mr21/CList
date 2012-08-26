@@ -6,12 +6,23 @@ J'essaye de faire en sorte qu'il puisse satisfaire tous les projets et inimagina
 
 Donc voici un mode d'emploi (**dont l'écriture n'est pas fini**) pour comment l'utiliser comme il faut toussa toussa.  
 
+Init / Clear
+---------------------------------------------------------------------------------------------------------
+Les deux fonctions de bases à connaitre sont celles qui initialisent et detruisent une liste (__CList*__).  
+
+    /* Init / Clear */
+    void                    CList_init (CList*);
+    void                    CList_clear(CList*);
+
+Aucun malloc n'est fait dans **CList_init**, elle ne fait qu'initialiser les variables à 0.  
+**CList_clear** libère chaque maillon de la liste en appellant leur destructeur respectif, et fait un free sur le maillon lui-même. La taille de la liste sera donc remise à 0 etc.  
+
 Push / Add
 ---------------------------------------------------------------------------------------------------------
 L'action la plus élémentaire est celle d'ajouter un maillon à une liste, c'est pourtant la plus complexe à bien comprendre... :S  
 
     /* Push / Add */
-    CLink*      CList_push_back(CList* list, void* data, size_t size, void (*destr)());
+    CLink*      CList_push_back (CList* list, void* data, size_t size, void (*destr)());
     CLink*      CList_push_front(CList* list, void* data, size_t size, void (*destr)());
 
 D'une manière générale les nouveaux maillons se mettent à la fin ou au début de la liste, c'est pourquoi nous avons : _front_ et _back_.  
@@ -19,7 +30,7 @@ Ces deux fonctions ont le même comportement et reçoivent chacune quatre argume
 * __list__ : un pointeur vers la liste dans laquelle nous voulons mettre un nouveau maillon.
 * __data__ : un pointeur vers les données du nouveau maillon.
 * __size__ : le *sizeof* des données, mais **uniquement** si l'on souhaite que les data soient **ancrées** dans le maillon. Dans le cas le plus courant qui consiste à passer le retour d'un malloc, il faut mettre **0**. Tout ce système complexe pour se passer d'un malloc par maillon dans certain cas.
-* __destr__ : le destructeur, chaque maillon possède un pointeur vers un destructeur (pratique pour les merges de liste), dans le cas où vous envoyez le retour d'un malloc il vous suffit de mettre **free** ici. Si vous ne voulez pas de destructeur pour votre maillon vous pouvez passer _NULL_, mais **attention** si vous passez _NULL_ le destructeur de la liste lui sera automatiquement assigné (sauf si vous avez aussi mis _NULL_ à **CList_init**).
+* __destr__ : le destructeur, chaque maillon possède un pointeur vers un destructeur (pratique pour les merges de liste), dans le cas où vous envoyez le retour d'un malloc il vous suffit de mettre **free** ici. Si vous ne voulez pas de destructeur pour votre maillon passez-lui _NULL_ (très utile dans le cas où vous ancrez les data directement dans le maillon).  
 
 En résumé voici les deux exemples :  
 
@@ -29,7 +40,7 @@ En résumé voici les deux exemples :
         Objet*  obj_0 = malloc(sizeof *obj);
         Objet   obj_1;
     
-        CList_init(&li, NULL);
+        CList_init(&li);
     
         CList_push_back(&li, obj_0, 0, free);
         CList_push_back(&li, &obj_1, sizeof obj_1, NULL);
@@ -45,8 +56,8 @@ Comment faire pour supprimer un maillon d'une liste ?
 Il y a plusieurs methodes pour ça :
 
     /* Pop / Delete */
-    CLink*      CList_erase(CList*, CLink*);
-    CLink*      CList_pop_back(CList*);
+    CLink*      CList_erase    (CList*, CLink*);
+    CLink*      CList_pop_back (CList*);
     CLink*      CList_pop_front(CList*);
 
 Si il s'agit de supprimer un maillon que nous avons en pointeur alors c'est **CList_erase** qu'il nous faut !  
@@ -65,14 +76,14 @@ Pour rechercher un maillon dans toute une liste j'ai écris huit fonctions que v
 
     /* Find...            */
     /*     ...by pointer  */
-    CLink*      CList_pfind_back(CList const*, void const*);
-    CLink*      CList_pfind_front(CList const*, void const*);
-    CLink*      CList_pfind_after(CLink const*, void const*);
+    CLink*      CList_pfind_back  (CList const*, void const*);
+    CLink*      CList_pfind_front (CList const*, void const*);
+    CLink*      CList_pfind_after (CLink const*, void const*);
     CLink*      CList_pfind_before(CLink const*, void const*);
     /*     ...by function */
-    CLink*      CList_ffind_back(CList const*, int (*f)());
-    CLink*      CList_ffind_front(CList const*, int (*f)());
-    CLink*      CList_ffind_after(CLink const*, int (*f)());
+    CLink*      CList_ffind_back  (CList const*, int (*f)());
+    CLink*      CList_ffind_front (CList const*, int (*f)());
+    CLink*      CList_ffind_after (CLink const*, int (*f)());
     CLink*      CList_ffind_before(CLink const*, int (*f)());
 
 Ces huit fonctions se séparent en deux groupes :  
