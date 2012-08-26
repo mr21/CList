@@ -45,6 +45,8 @@ CLink*			CList_begin(CList const*);
 CLink*			CList_end  (CList const*);
 size_t			CList_size (CList const*);
 int			CList_empty(CList const*);
+CLink*			CList_prev (CList const*, size_t);
+CLink*			CList_next (CList const*, size_t);
 
 /* Add */
 CLink*			CList_push_back (CList*, void* data, size_t, void (*destr)());
