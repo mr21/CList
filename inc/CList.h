@@ -28,11 +28,10 @@ struct			CList
   CLink*		begin;
   CLink*		end;
   size_t		size;
-  void			(*free)();
 };
 
 /* Init & destroy */
-void			CList_init (CList*, void (*destr)());
+void			CList_init (CList*);
 void			CList_clear(CList*);
 
 /* CLink* [gs]etters */
@@ -72,10 +71,10 @@ CLink*			CList_ffind_after (CLink const*, int (*f)());
 CLink*			CList_ffind_before(CLink const*, int (*f)());
 
 /* Merge */
-CList*			CList_merge_back  (CList*, CList*);
-CList*			CList_merge_front (CList*, CList*);
-CList*			CList_merge_after (CList*, CLink*, CList*);
-CList*			CList_merge_before(CList*, CLink*, CList*);
+CList*			CList_merge_back  (CList* li, CList* la);
+CList*			CList_merge_front (CList* li, CList* la);
+CList*			CList_merge_after (CList* li, CLink*, CList* la);
+CList*			CList_merge_before(CList* li, CLink*, CList* la);
 
 /* Cut !!TODO!! */
 CList*			CList_cut       (CList*, CLink*, CLink*);

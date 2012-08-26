@@ -4,7 +4,7 @@
 static void	add(CList* li, CList* la)
 {
   li->size += la->size;
-  CList_init(la, la->free);
+  CList_init(la);
 }
 
 CList*		CList_merge_back(CList* li, CList* la)
