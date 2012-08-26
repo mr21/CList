@@ -124,7 +124,7 @@ Premièrement ces fonctions `return` la liste _*li_ (en d'autre terme la liste r
 Deuxièmement il n'y a **aucune copie** dans ces opérations. Ce qui insinu que la liste _*la_ deviendra totalement vide, elle sera dans le même état qu'elle l'a été au moment de son initialisation : `CList_init(&la);`.  
 
 `CList_merge_back` va souder la liste _*la_ à la fin de la liste _*li_.  
-`CList_merge_front` va souder la liste _*la_ début de la liste _*li_.  
+`CList_merge_front` va souder la liste _*la_ au début de la liste _*li_.  
 
 Cependant il est possible que vous ayez envie de placer la liste _*la_ **dans** la liste _*li_ et non à l'une de ses extrèmités. Pour cela il y a :  
 `CList_merge_after` qui mettra la liste _*la_ juste **après** le maillon _*ln_ appartenant à la liste _*li_.
