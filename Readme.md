@@ -130,12 +130,4 @@ Cependant il est possible que vous ayez envie de placer la liste _*la_ **dans** 
 `CList_merge_after` qui mettra la liste _*la_ juste **après** le maillon _*ln_ appartenant à la liste _*li_.
 `CList_merge_before` qui mettra la liste _*la_ juste **avant** le maillon _*ln_ appartenant à la liste _*li_.
 
-
-
-
-
-
-
-
-
-
+**Note** : Il est complétement inutile d'envoyer deux fois la même liste pour _*li_ et _*la_...  
