@@ -9,7 +9,7 @@ static void	add(CList* li, CList* la)
 
 CList*		CList_merge_back(CList* li, CList* la)
 {
-  if (la->size)
+  if (li != la && la && la->size)
     {
       li->end->next = la->begin;
       la->begin->prev = li->end;
@@ -21,7 +21,7 @@ CList*		CList_merge_back(CList* li, CList* la)
 
 CList*		CList_merge_front(CList* li, CList* la)
 {
-  if (la->size)
+  if (li != la && la && la->size)
     {
       li->begin->prev = la->end;
       la->end->next = li->begin;
@@ -33,9 +33,9 @@ CList*		CList_merge_front(CList* li, CList* la)
 
 CList*		CList_merge_after(CList* li, CLink* ln, CList* la)
 {
-  if (ln == li->end)
+  if (li && li->end == ln)
     return CList_merge_back(li, la);
-  if (la->size)
+  if (li != la && la && la->size && ln)
     {
       la->begin->prev = ln;
       la->end->next = ln->next;
@@ -48,9 +48,9 @@ CList*		CList_merge_after(CList* li, CLink* ln, CList* la)
 
 CList*		CList_merge_before(CList* li, CLink* ln, CList* la)
 {
-  if (ln == li->begin)
+  if (li && li->begin == ln)
     return CList_merge_front(li, la);
-  if (la->size)
+  if (li != la && la && la->size && ln)
     {
       la->begin->prev = ln->prev;
       la->end->next = ln;
