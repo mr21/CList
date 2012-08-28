@@ -30,7 +30,7 @@ struct			CList
   size_t		size;
 };
 
-/* Init & destroy */
+/* Init & destro */
 void			CList_init (CList*);
 void			CList_clear(CList*);
 
@@ -79,9 +79,9 @@ CList*			CList_merge_after (CList* li, CLink*, CList* la);
 CList*			CList_merge_before(CList* li, CLink*, CList* la);
 
 /* Cut !!TODO!! */
-CList*			CList_cut       (CList*, CLink*, CLink*);
-CList*			CList_cut_after (CList*, CLink*);
-CList*			CList_cut_before(CList*, CLink*);
+CList*			CList_cut      (CList*, CLink*, CLink*);
+CList*			CList_cut_back (CList*, CLink*);
+CList*			CList_cut_front(CList*, CLink*);
 
 /* Move !!TODO!! */
 CList*			CList_move_back  (CList* li, CLink* a, CLink* b, CList* la);
