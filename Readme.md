@@ -115,10 +115,10 @@ Merge
 Il est possible de merger une liste avec une autre (ou **dans** une autre), via quatres fonctions.  
 
     /* Merge */
-    CList*                  CList_merge_back  (CList* li, CList* la);
-    CList*                  CList_merge_front (CList* li, CList* la);
-    CList*                  CList_merge_after (CList* li, CLink* ln, CList* la);
-    CList*                  CList_merge_before(CList* li, CLink* ln, CList* la);
+    CList*      CList_merge_back  (CList* li, CList* la);
+    CList*      CList_merge_front (CList* li, CList* la);
+    CList*      CList_merge_after (CList* li, CLink* ln, CList* la);
+    CList*      CList_merge_before(CList* li, CLink* ln, CList* la);
 
 Premièrement ces fonctions `return` la liste _*li_ (en d'autre terme la liste retournée est celle qui se voit agrandit par l'ajout de l'autre).  
 Deuxièmement il n'y a **aucune copie** dans ces opérations. Ce qui insinu que la liste _*la_ deviendra totalement vide, elle sera dans le même état qu'elle l'a été au moment de son initialisation : `CList_init(&la);`.  
@@ -131,3 +131,23 @@ Cependant il est possible que vous ayez envie de placer la liste _*la_ **dans** 
 `CList_merge_before` qui mettra la liste _*la_ juste **avant** le maillon _*ln_ appartenant à la liste _*li_.
 
 **Note** : Il est complétement inutile d'envoyer deux fois la même liste pour _*li_ et _*la_...  
+
+Cut
+---------------------------------------------------------------------------------------------------------
+On peut voir **cut** comme l'inverse de **merge**.  
+**cut** permet de couper une liste en deux, les trois fonctions ci-dessous vont créer une nouvelle liste (`CList*`) qu'il sera necéssaire de `free` par la suite.  
+
+    /* Cut */
+    CList*    	CList_cut      (CList* li, CLink* lna, CLink* lnb);
+    CList*		CList_cut_back (CList* li, CLink*);
+    CList*		CList_cut_front(CList* li, CLink*);
+
+Pour les trois fonctions tous les maillons (`CLink*`) sont compris dans la nouvelle liste (`CList*`) créée.  
+Prenons par exemple cette liste :  
+
+    CList* li = 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
+
+Si nous faisons `CList* la = CList_cut_back(&li, CList_ffind_front(&li, find_4));` Nous nous retronverons avec :  
+
+    CList* li = 0 - 1 - 2 - 3
+    CList* la = 4 - 5 - 6 - 7 - 8 - 9
