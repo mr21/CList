@@ -151,3 +151,22 @@ Si nous faisons `CList* la = CList_cut_back(&li, CList_ffind_front(&li, find_4))
 
     CList* li = 0 - 1 - 2 - 3
     CList* la = 4 - 5 - 6 - 7 - 8 - 9
+
+Si nous reprenons la liste _*li_ initiale sur laquelle j'applique `CList* la = CList_cut_front(&li, CList_ffind_front(&li, find_6));` nous aurons :  
+
+    CList* li = 7 - 8 - 9
+    CList* la = 0 - 1 - 2 - 3 - 4 - 5 - 6
+
+On voit bien que c'est exactement comme si je donnais un coup de ciseau dans la liste !  
+Mais admettons cette fois-ci que je veuille découper un bout qui soit au milieu de la liste et non à ses extremités. C'est maintenant que rentre en jeu `CList_cut`.  
+
+Reprenons de nouveau la liste de départ, avec cette ligne `CList* la = CList_cut(&li, CList_ffind_front(&li, find_4), CList_ffind_front(&li, find_6));` le résultat sera :  
+
+    CList* li = 0 - 1 - 2 - 3 - 7 - 8 - 9
+    CList* la = 4 - 5 - 6
+
+Le maillon 3 et 7 de la liste _*li_ se sont raccrochés.  
+
+**Rappel** : Les trois fonctions expliquées ci-dessus font un `malloc`, il faut donc `free` leurs retours systematiquement.  
+**Note** : Pour `CList_cut` Il est impératif à ce que le maillon `lna` soit avant `lnb`.  
+**Note** : Toutes les mini-fonction find_4; find_6; etc. n'existe évidemment pas, il faut les coder vous-même.  
