@@ -78,7 +78,7 @@ CList*			CList_merge_front (CList* li, CList* la);
 CList*			CList_merge_after (CList* li, CLink*, CList* la);
 CList*			CList_merge_before(CList* li, CLink*, CList* la);
 
-/* Cut !!TODO!! */
+/* Cut */
 CList*			CList_cut      (CList*, CLink*, CLink*);
 CList*			CList_cut_back (CList*, CLink*);
 CList*			CList_cut_front(CList*, CLink*);
