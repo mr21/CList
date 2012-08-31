@@ -1,11 +1,12 @@
 #include	<stdlib.h>
 #include	"CList.h"
 
-CLink*		CList_erase(CList* li, CLink* ln)
+CLink*		CList_erase(CLink* ln)
 {
+  CList*	li = CLink_list(ln);
   CLink*	ln_ret;
 
-  if (!ln)
+  if (!li)
     return NULL;
   if (ln == li->begin)
     return CList_pop_front(li);

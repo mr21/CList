@@ -67,7 +67,7 @@ int		main(void)
   printf("%d\n", CList_pfind_front(li, o1) == lno1 && CList_pfind_back(li, o1) == lno1);
   printf("%d\n", CList_pfind_after(lno0, o1) == lno1 && CList_pfind_before(lno1, o0) == lno0);
   printf("%d\n", CList_pfind_after(lno0, o0) == lno0 && CList_pfind_before(lno1, o1) == lno1);
-  CList_erase(li, lno0);
+  CList_erase(lno0);
   printf("%d\n", CList_pfind_back(li, o0) == NULL);
   printf("%d\n", CList_pfind_front(li, o1) == lno1 && CList_pfind_back(li, o1) == lno1);
   while (((Obj*)CLink_data(CList_end(li)))->b != 1337)
@@ -98,19 +98,19 @@ int		main(void)
   printf("%d\n", ((Obj*)CList_end(li)->data)->b == 1337 && ((Obj*)CList_begin(li)->data)->b == 1337);
   for (u = 1; u < 5; ++u)
     CList_push_back(la, o(u, 0), 0, free);
-  CList_merge_before(li, li->begin, la);
+  CList_merge_before(li->begin, la);
   for (u = 1; u < 5; ++u)
     CList_push_back(la, o(-1, 10 + u), 0, free);
-  CList_merge_after(li, li->begin, la);
+  CList_merge_after(li->begin, la);
   for (u = 1; u < 5; ++u)
     CList_push_back(la, o(-4, 40 + u), 0, free);
-  CList_merge_before(li, li->end, la);
+  CList_merge_before(li->end, la);
   for (u = 1; u < 5; ++u)
     CList_push_back(la, o(-3, 30 + u), 0, free);
-  CList_merge_after(li, CList_ffind_front(li, ofn3), la);
+  CList_merge_after(CList_ffind_front(li, ofn3), la);
   for (u = 1; u < 5; ++u)
     CList_push_back(la, o(-2, 20 + u), 0, free);
-  CList_merge_before(li, CList_ffind_front(li, ofn2)->next, la);
+  CList_merge_before(CList_ffind_front(li, ofn2)->next, la);
 
   printf("%d CLink_prev/next\n", CLink_next(CList_begin(li), 0) == li->begin && CLink_prev(CList_end(li), 0) == li->end);
   printf("%d\n", ((Obj*)CLink_data(CLink_next(CList_begin(li)->next, 10)))->b ==
@@ -118,7 +118,7 @@ int		main(void)
 
   CList_pop_back(li);
 
-  la = CList_cut_front(li, CList_ffind_front(li, ofn3)->prev);
+  la = CList_cut_front(CList_ffind_front(li, ofn3)->prev);
   printf("%d cut_front (size)\n", la->size == li->size && li->size == 10);
   printf("%d cut_front (null)\n", !la->begin->prev && !li->begin->prev && !la->end->next && !li->end->next);
   printf("%d cut_front (li begin/end)\n", ((Obj*)li->begin->data)->a == 3 && ((Obj*)li->end->data)->b == 44);
@@ -128,7 +128,7 @@ int		main(void)
   printf("%d merge_back (li begin/end)\n", ((Obj*)li->begin->data)->a == 3 && ((Obj*)li->end->data)->b == 24);
   printf("%d merge_back (la begin/end)\n", !la->begin && !la->end);
   free(la);
-  la = CList_cut_back(li, CList_ffind_front(li, ofn1));
+  la = CList_cut_back(CList_ffind_front(li, ofn1));
   printf("%d cut_back (size)\n", la->size == li->size && li->size == 10);
   printf("%d cut_back (null)\n", !la->begin->prev && !li->begin->prev && !la->end->next && !li->end->next);
   printf("%d cut_back (li begin/end)\n", ((Obj*)li->begin->data)->a == 3 && ((Obj*)li->end->data)->b == 44);
@@ -138,18 +138,18 @@ int		main(void)
   printf("%d merge_front (li begin/end)\n", ((Obj*)li->begin->data)->a == 1 && ((Obj*)li->end->data)->b == 44);
   printf("%d merge_front (la begin/end)\n", !la->begin && !la->end);
   free(la);
-  la = CList_cut(li, CList_ffind_front(li, ofn2), CList_ffind_front(li, ofn4)->prev);
+  la = CList_cut(CList_ffind_front(li, ofn2), CList_ffind_front(li, ofn4)->prev);
   printf("%d cut (size)\n", la->size == li->size && li->size == 10);
   printf("%d cut (null)\n", !la->begin->prev && !li->begin->prev && !la->end->next && !li->end->next);
   printf("%d cut (li begin/end)\n", ((Obj*)li->begin->data)->a == 1 && ((Obj*)li->end->data)->b == 44);
   printf("%d cut (la begin/end)\n", ((Obj*)la->begin->data)->a == 2 && ((Obj*)la->end->data)->b == 34);
-  CList_merge_before(li, CList_ffind_front(li, ofn4), la);
+  CList_merge_before(CList_ffind_front(li, ofn4), la);
   printf("%d merge_before (size)\n", li->size == 20 && !la->size);
   printf("%d merge_before (li begin/end)\n", ((Obj*)li->begin->data)->a == 1 && ((Obj*)li->end->data)->b == 44);
   printf("%d merge_before (la begin/end)\n", !la->begin && !la->end);
   free(la);
-  la = CList_cut(li, CList_ffind_front(li, ofn2), CList_ffind_front(li, ofn4)->prev);
-  CList_merge_after(li, CList_ffind_front(li, ofn4)->prev, la);
+  la = CList_cut(CList_ffind_front(li, ofn2), CList_ffind_front(li, ofn4)->prev);
+  CList_merge_after(CList_ffind_front(li, ofn4)->prev, la);
   printf("%d merge_after (size)\n", li->size == 20 && !la->size);
   printf("%d merge_after (li begin/end)\n", ((Obj*)li->begin->data)->a == 1 && ((Obj*)li->end->data)->b == 44);
   printf("%d merge_after (la begin/end)\n", !la->begin && !la->end);

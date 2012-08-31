@@ -3,6 +3,10 @@
 
 static void	add(CList* li, CList* la)
 {
+  CLink*	ln = li->begin;
+
+  for (; ln; ln = ln->next)
+    ln->list = li;
   li->size += la->size;
   CList_init(la);
 }
@@ -31,9 +35,11 @@ CList*		CList_merge_front(CList* li, CList* la)
   return li;
 }
 
-CList*		CList_merge_after(CList* li, CLink* ln, CList* la)
+CList*		CList_merge_after(CLink* ln, CList* la)
 {
-  if (li && li->end == ln)
+  CList*	li = CLink_list(ln);
+
+  if (li && ln == li->end)
     return CList_merge_back(li, la);
   if (li != la && la && la->size && ln)
     {
@@ -46,9 +52,11 @@ CList*		CList_merge_after(CList* li, CLink* ln, CList* la)
   return li;
 }
 
-CList*		CList_merge_before(CList* li, CLink* ln, CList* la)
+CList*		CList_merge_before(CLink* ln, CList* la)
 {
-  if (li && li->begin == ln)
+  CList*	li = CLink_list(ln);
+
+  if (li && ln == li->begin)
     return CList_merge_front(li, la);
   if (li != la && la && la->size && ln)
     {

@@ -8,6 +8,7 @@ static CLink*	newLink(CList* li, void* data, size_t sz, void (*destr)())
 
   if (new)
     {
+      new->list = li;
       new->free = destr;
       new->prev = new->next = NULL;
       if (!sz)
