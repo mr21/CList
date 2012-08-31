@@ -56,16 +56,15 @@ Comment faire pour supprimer un maillon d'une liste ?
 Il y a plusieurs methodes pour ça :
 
     /* Pop / Delete */
-    CLink*      CList_erase    (CList*, CLink*);
+    CLink*      CList_erase    (CLink*);
     CLink*      CList_pop_back (CList*);
     CLink*      CList_pop_front(CList*);
 
 Si il s'agit de supprimer un maillon que nous avons en pointeur alors c'est `CList_erase` qu'il nous faut !  
-Elle prend en paramètre la liste et le maillon à supprimer.  
-Elle retourne systematiquement le maillon suivant (ou `NULL` si c'etait le dernier de la chaîne).  
+Elle retourne systematiquement le maillon suivant (ou `NULL` si c'etait le dernier de la liste).  
 
-Dans d'autres cas (qui arrivent très très souvent) vous pourrez avoir besoin de supprimer le premier ou le dernier maillon d'une liste, pour cela il y a : `CList_pop_back` et `CList_pop_front`.  
-Ces fonctions ne prennent, quant-à elle qu'un seul paramètre : la liste en question (`CList*`).  
+Dans d'autres cas (qui arrivent très souvent) vous pourrez avoir besoin de supprimer le premier ou le dernier maillon d'une liste, pour cela il y a : `CList_pop_back` et `CList_pop_front`.  
+Ces fonctions prennent la liste en paramètre (`CList*`).  
 Elles renverront toujours le maillon qui est à l'extrémités de cette liste : `CList_pop_back` renverra toujours le dernier maillon (ou `NULL` si la liste est vide) est vice versa (`CList_pop_front` le premier).  
 
 Notons qu'il est également possible de supprimer plusieurs maillon d'un coup via `CList_foreach`.
@@ -117,8 +116,8 @@ Il est possible de merger une liste avec une autre (ou **dans** une autre), via 
     /* Merge */
     CList*      CList_merge_back  (CList* li, CList* la);
     CList*      CList_merge_front (CList* li, CList* la);
-    CList*      CList_merge_after (CList* li, CLink* ln, CList* la);
-    CList*      CList_merge_before(CList* li, CLink* ln, CList* la);
+    CList*      CList_merge_after (CLink* ln, CList* la);
+    CList*      CList_merge_before(CLink* ln, CList* la);
 
 Premièrement ces fonctions `return` la liste _*li_ (en d'autre terme la liste retournée est celle qui se voit agrandit par l'ajout de l'autre).  
 Deuxièmement il n'y a **aucune copie** dans ces opérations. Ce qui insinu que la liste _*la_ deviendra totalement vide, elle sera dans le même état qu'elle l'a été au moment de son initialisation : `CList_init(&la);`.  
@@ -127,10 +126,10 @@ Deuxièmement il n'y a **aucune copie** dans ces opérations. Ce qui insinu que 
 `CList_merge_front` va souder la liste _*la_ au début de la liste _*li_.  
 
 Cependant il est possible que vous ayez envie de placer la liste _*la_ **dans** la liste _*li_ et non à l'une de ses extrèmités. Pour cela il y a :  
-`CList_merge_after` qui mettra la liste _*la_ juste **après** le maillon _*ln_ appartenant à la liste _*li_.
-`CList_merge_before` qui mettra la liste _*la_ juste **avant** le maillon _*ln_ appartenant à la liste _*li_.
+`CList_merge_after` qui mettra la liste _*la_ juste **après** le maillon _*ln_ (appartenant à la liste _*ln->list_).
+`CList_merge_before` qui mettra la liste _*la_ juste **avant** le maillon _*ln_ (appartenant à la liste _*ln->list_).
 
-**Note** : Il est complétement inutile d'envoyer deux fois la même liste pour _*li_ et _*la_...  
+**Note** : Tout plantera si l'on souhaite _merger_ la liste dans elle même...  
 
 Cut
 ---------------------------------------------------------------------------------------------------------
@@ -138,21 +137,21 @@ On peut voir **cut** comme l'inverse de **merge**.
 **cut** permet de couper une liste en deux, les trois fonctions ci-dessous vont créer une nouvelle liste (`CList*`) qu'il sera necéssaire de `free` par la suite.  
 
     /* Cut */
-    CList*    	CList_cut      (CList* li, CLink* lna, CLink* lnb);
-    CList*		CList_cut_back (CList* li, CLink*);
-    CList*		CList_cut_front(CList* li, CLink*);
+    CList*    	CList_cut      (CLink* lna, CLink* lnb);
+    CList*		CList_cut_back (CLink*);
+    CList*		CList_cut_front(CLink*);
 
-Pour les trois fonctions tous les maillons (`CLink*`) sont compris dans la nouvelle liste (`CList*`) créée.  
+Pour les trois fonctions tous les maillons (`CLink*`) seront compris dans la nouvelle liste (`CList*`) créée.  
 Prenons par exemple cette liste :  
 
     CList* li = 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
 
-Si nous faisons `CList* la = CList_cut_back(&li, CList_ffind_front(&li, find_4));` Nous nous retronverons avec :  
+Si nous faisons `CList* la = CList_cut_back(CList_ffind_front(&li, find_4));` Nous nous retronverons avec :  
 
     CList* li = 0 - 1 - 2 - 3
     CList* la = 4 - 5 - 6 - 7 - 8 - 9
 
-Si nous reprenons la liste _*li_ initiale sur laquelle j'applique `CList* la = CList_cut_front(&li, CList_ffind_front(&li, find_6));` nous aurons :  
+Si nous reprenons la liste _*li_ initiale sur laquelle j'applique `CList* la = CList_cut_front(CList_ffind_front(&li, find_6));` nous aurons :  
 
     CList* li = 7 - 8 - 9
     CList* la = 0 - 1 - 2 - 3 - 4 - 5 - 6
@@ -167,6 +166,6 @@ Reprenons de nouveau la liste de départ, avec cette ligne `CList* la = CList_cu
 
 Le maillon 3 et 7 de la liste _*li_ se sont raccrochés.  
 
-**Rappel** : Les trois fonctions expliquées ci-dessus font un `malloc`, il faut donc `free` leurs retours systematiquement.  
-**Note** : Pour `CList_cut` Il est impératif à ce que le maillon `lna` soit avant `lnb`.  
-**Note** : Toutes les mini-fonction find_4; find_6; etc. n'existe évidemment pas, il faut les coder vous-même.  
+**Rappel** : Les trois fonctions expliquées ci-dessus font un `malloc`, il faudra donc `free` leurs retours systématiquement.  
+**Note** : Actuellement, Il est impératif à ce que le maillon `lna` se trouve avant `lnb` pour `CList_cut`.  
+**Note** : Toutes les mini-fonction *find_4; find_6;* etc. n'existe évidemment pas, il faut les coder vous-même.  
