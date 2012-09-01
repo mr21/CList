@@ -50,17 +50,17 @@ En résumé voici les deux exemples :
     }
 
 
-Pop / Delete / Erase
+Pop
 ---------------------------------------------------------------------------------------------------------
 Comment faire pour supprimer un maillon d'une liste ?  
 Il y a plusieurs methodes pour ça :
 
     /* Pop / Delete */
-    CLink*      CList_erase    (CLink*);
+    CLink*      CList_pop      (CLink*);
     CLink*      CList_pop_back (CList*);
     CLink*      CList_pop_front(CList*);
 
-Si il s'agit de supprimer un maillon que nous avons en pointeur alors c'est `CList_erase` qu'il nous faut !  
+Si il s'agit de supprimer un maillon que nous avons en pointeur alors c'est `CList_pop` qu'il nous faut !  
 Elle retourne systematiquement le maillon suivant (ou `NULL` si c'etait le dernier de la liste).  
 
 Dans d'autres cas (qui arrivent très souvent) vous pourrez avoir besoin de supprimer le premier ou le dernier maillon d'une liste, pour cela il y a : `CList_pop_back` et `CList_pop_front`.  
