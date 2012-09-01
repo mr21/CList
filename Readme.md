@@ -17,13 +17,15 @@ Les deux fonctions de bases à connaitre sont celles qui initialisent et detruis
 Aucun malloc n'est fait dans `CList_init`, elle ne fait qu'initialiser les variables à 0.  
 `CList_clear` libère chaque maillon de la liste en appellant leur destructeur respectif, et fait un free sur le maillon lui-même. La taille de la liste sera donc remise à 0 etc.  
 
-Push / Add
+Push
 ---------------------------------------------------------------------------------------------------------
 L'action la plus élémentaire est celle d'ajouter un maillon à une liste, c'est pourtant la plus complexe à bien comprendre... :S  
 
     /* Push / Add */
-    CLink*      CList_push_back (CList* list, void* data, size_t size, void (*destr)());
-    CLink*      CList_push_front(CList* list, void* data, size_t size, void (*destr)());
+    CLink*      CList_push_back  (CList* list, void* data, size_t size, void (*destr)());
+    CLink*      CList_push_front (CList* list, void* data, size_t size, void (*destr)());
+    CLink*    	CList_push_after (CLink* link, void* data, size_t size, void (*destr)());
+    CLink*		CList_push_before(CLink* link, void* data, size_t size, void (*destr)());
 
 D'une manière générale les nouveaux maillons se mettent à la fin ou au début de la liste, c'est pourquoi nous avons : _front_ et _back_.  
 Ces deux fonctions ont le même comportement et reçoivent chacune quatre arguments :  
@@ -31,6 +33,9 @@ Ces deux fonctions ont le même comportement et reçoivent chacune quatre argume
 * __*data*__ : un pointeur vers les données du nouveau maillon.
 * __*size*__ : le *sizeof* des données, mais **uniquement** si l'on souhaite que les data soient **ancrées** dans le maillon. Dans le cas le plus courant qui consiste à passer le retour d'un malloc, il faut mettre `0`. Tout ce système complexe pour se passer d'un malloc par maillon dans certain cas.
 * __*destr*__ : le destructeur, chaque maillon possède un pointeur vers un destructeur (pratique pour les merges de liste), dans le cas où vous envoyez le retour d'un malloc il vous suffit de mettre `free`. Si vous ne voulez pas de destructeur pour votre maillon passez-lui `NULL` (très utile dans le cas où vous ancrez les data directement dans le maillon).  
+
+Ceci dit il est possible de vouloir rajouter un maillon à un endroit bien précis dans la liste, pour ceci il y a _after_ et _before_ :  
+Elles ont exactement le même prototype que celui expliqué au dessus, sauf qu'elles prennent un maillon (`CLink*`) et non une liste en paramètre.  
 
 En résumé voici les deux exemples :  
 
