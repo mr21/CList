@@ -57,7 +57,7 @@ CLink*			CList_push_after (CLink*, void* data, size_t, void (*destr)());
 CLink*			CList_push_before(CLink*, void* data, size_t, void (*destr)());
 
 /* Delete */
-CLink*			CList_erase    (CLink*);
+CLink*			CList_pop      (CLink*);
 CLink*			CList_pop_back (CList*);
 CLink*			CList_pop_front(CList*);
 

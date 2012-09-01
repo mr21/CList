@@ -65,7 +65,7 @@ int		main(void)
   printf("%d\n", CList_pfind_front(li, o1) == lno1 && CList_pfind_back(li, o1) == lno1);
   printf("%d\n", CList_pfind_after(lno0, o1) == lno1 && CList_pfind_before(lno1, o0) == lno0);
   printf("%d\n", CList_pfind_after(lno0, o0) == lno0 && CList_pfind_before(lno1, o1) == lno1);
-  CList_erase(lno0);
+  CList_pop(lno0);
   printf("%d\n", CList_pfind_back(li, o0) == NULL);
   printf("%d\n", CList_pfind_front(li, o1) == lno1 && CList_pfind_back(li, o1) == lno1);
   while (((Obj*)CLink_data(CList_end(li)))->b != 1337)
