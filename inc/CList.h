@@ -51,8 +51,10 @@ CLink*			CList_prev (CList const*, size_t);
 CLink*			CList_next (CList const*, size_t);
 
 /* Add */
-CLink*			CList_push_back (CList*, void* data, size_t, void (*destr)());
-CLink*			CList_push_front(CList*, void* data, size_t, void (*destr)());
+CLink*			CList_push_back  (CList*, void* data, size_t, void (*destr)());
+CLink*			CList_push_front (CList*, void* data, size_t, void (*destr)());
+CLink*			CList_push_after (CLink*, void* data, size_t, void (*destr)());
+CLink*			CList_push_before(CLink*, void* data, size_t, void (*destr)());
 
 /* Delete */
 CLink*			CList_erase    (CLink*);

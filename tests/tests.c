@@ -22,10 +22,8 @@ int		opr(Obj* o)
   return CLIST_CONTINUE;
 }
 
-int		ocl(Obj* o)
-{
-  return o->b == 1337 ? CLIST_CONTINUE : CLIST_ERASE;
-}
+int		ocl(Obj* o)  { return o->b == 1337 ? CLIST_CONTINUE : CLIST_ERASE; }
+int		ocl2(Obj* o) { return o->b >= 100 ? CLIST_CONTINUE : CLIST_ERASE; }
 
 int		ofn1(Obj* o) { return o->a == 1 ? CLIST_BREAK : CLIST_CONTINUE; }
 int		ofn2(Obj* o) { return o->a == 2 ? CLIST_BREAK : CLIST_CONTINUE; }
@@ -154,6 +152,16 @@ int		main(void)
   printf("%d merge_after (li begin/end)\n", ((Obj*)li->begin->data)->a == 1 && ((Obj*)li->end->data)->b == 44);
   printf("%d merge_after (la begin/end)\n", !la->begin && !la->end);
   free(la);
+
+  CList_push_after(CList_ffind_back(li, ofn1), o(1, 111111), 0, free);
+  CList_push_before(CList_ffind_back(li, ofn1), o(0, 100000), 0, free);
+  CList_push_after(CList_end(li), o(5, 555555), 0, free);
+  CList_push_before(CList_ffind_back(li, ofn4), o(4, 444444), 0, free);
+  printf("%d size\n", li->size == 24);
+  CList_foreach(li, ocl2);
+  CList_push_before(CList_ffind_back(li, ofn4), o(2, 222222), 0, free);
+  CList_push_after(CList_ffind_back(li, ofn2), o(3, 333333), 0, free);
+  printf("%d size\n", li->size == 6);
 
   CList_foreach(li, opr);
   

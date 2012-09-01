@@ -50,3 +50,37 @@ CLink*		CList_push_back(CList* li, void* data, size_t sz, void (*destr)())
     }
   return new;
 }
+
+CLink*		CList_push_after(CLink* ln, void* data, size_t sz, void (*destr)())
+{
+  CList*	li = ln->list;
+  CLink*	new;
+
+  if (ln == li->end)
+    return CList_push_back(li, data, sz, destr);
+  if ((new = newLink(li, data, sz, destr)))
+    {
+      new->prev = ln;
+      new->next = ln->next;
+      ln->next->prev = new;
+      ln->next = new;
+    }
+  return new;
+}
+
+CLink*		CList_push_before(CLink* ln, void* data, size_t sz, void (*destr)())
+{
+  CList*	li = ln->list;
+  CLink*	new;
+
+  if (ln == li->begin)
+    return CList_push_front(li, data, sz, destr);
+  if ((new = newLink(li, data, sz, destr)))
+    {
+      new->prev = ln->prev;
+      new->next = ln;
+      ln->prev->next = new;
+      ln->prev = new;
+    }
+  return new;
+}
