@@ -1,7 +1,7 @@
-NAME		=	libCList.a
+NAME		=	libCList.so
 
 CC		=	gcc
-CFLAGS		=	-Wall -Wextra -ansi -pedantic
+CFLAGS		=	-Wall -Wextra -ansi -pedantic -fPIC
 CFLAGS		+=	-Iinc/
 
 RM		=	@rm -f
@@ -20,7 +20,7 @@ SRC		=	src/CList_init.c	\
 OBJ		=	$(SRC:.c=.o)
 
 $(NAME)		:	$(OBJ)
-			ar rcs $(NAME) $(OBJ)
+			$(CC) -o $(NAME) $(OBJ) -shared
 
 all		:	$(NAME)
 
