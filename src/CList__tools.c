@@ -9,3 +9,12 @@ size_t		CList__len_n_li(CLink* a, CLink* b, CList* la)
   while (a != b && (a = a->next));
   return s;
 }
+
+size_t		CList__len(CLink* a, CLink* b)
+{
+  size_t        s = 1;
+
+  for (; a && a != b; a = a->next)
+    ++s;
+  return s;
+}

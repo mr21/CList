@@ -95,5 +95,6 @@ CList*			CList_move_before(CLink* lna, CLink* lnb, CLink* lnc);
 
 /* fonctions statique a la lib */
 size_t			CList__len_n_li(CLink*, CLink*, CList*);
+size_t			CList__len(CLink*, CLink*);
 
 #endif
