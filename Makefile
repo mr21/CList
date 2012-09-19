@@ -6,19 +6,19 @@ CFLAGS		+=	-Iinc/
 
 RM		=	@rm -f
 
-SRC		=	src/CList_init.c	\
-			src/CLink_getters.c	\
-			src/CList_getters.c	\
-			src/CList_clear.c	\
-			src/CList_foreach.c	\
-			src/CList_find.c	\
-			src/CList_pop.c		\
-			src/CList_push.c	\
-			src/CList_merge.c	\
-			src/CList_cut.c		\
-			src/CList__tools.c	\
+SRC		=	src/
 
-OBJ		=	$(SRC:.c=.o)
+OBJ		+=	$(SRC)CList_init.o
+OBJ		+=	$(SRC)CLink_getters.o
+OBJ		+=	$(SRC)CList_getters.o
+OBJ		+=	$(SRC)CList_clear.o
+OBJ		+=	$(SRC)CList_foreach.o
+OBJ		+=	$(SRC)CList_find.o
+OBJ		+=	$(SRC)CList_pop.o	
+OBJ		+=	$(SRC)CList_push.o
+OBJ		+=	$(SRC)CList_merge.o
+OBJ		+=	$(SRC)CList_cut.o	
+OBJ		+=	$(SRC)CList__tools.o
 
 $(NAME)		:	$(OBJ)
 			$(CC) -o $(NAME) $(OBJ) -shared
