@@ -16,6 +16,7 @@ SRC		=	src/CList_init.c	\
 			src/CList_push.c	\
 			src/CList_merge.c	\
 			src/CList_cut.c		\
+			src/CList__tools.c	\
 
 OBJ		=	$(SRC:.c=.o)
 

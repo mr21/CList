@@ -31,7 +31,7 @@ struct			CList
   size_t		size;
 };
 
-/* Init & destro */
+/* Init & destroy */
 void			CList_init (CList*);
 void			CList_clear(CList*);
 
@@ -92,5 +92,8 @@ CList*			CList_move_back  (CLink* lna, CLink* lnb, CList* la);
 CList*			CList_move_front (CLink* lna, CLink* lnb, CList* la);
 CList*			CList_move_after (CLink* lna, CLink* lnb, CLink* lnc);
 CList*			CList_move_before(CLink* lna, CLink* lnb, CLink* lnc);
+
+/* fonctions statique a la lib */
+size_t			CList__len_n_li(CLink*, CLink*, CList*);
 
 #endif

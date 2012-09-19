@@ -1,16 +1,6 @@
 #include	<stdlib.h>
 #include	"CList.h"
 
-static size_t	len(CLink* a, CLink* b, CList* la)
-{
-  size_t	s = 0;
-
-  do
-    ++s, a->list = la;
-  while (a != b && (a = a->next));
-  return s;
-}
-
 CList*		CList_cut(CLink* lna, CLink* lnb)
 {
   CList*	li = lna->list;
@@ -19,7 +9,7 @@ CList*		CList_cut(CLink* lna, CLink* lnb)
 
   if (la)
     {
-      sz = len(lna, lnb, la);
+      sz = CList__len_n_li(lna, lnb, la);
       la->begin = lna;
       la->end = lnb;
       la->size = sz;
