@@ -24,6 +24,8 @@ int		opr(Obj* o)
 
 int		printlist(CList* li)
 {
+  if (CList_empty(li) && !li->begin && !li->end)
+    return printf("list empty\n");
   printf("--\n");
   CList_foreach(li, opr);
   return printf("\n");
@@ -204,6 +206,7 @@ int		main(void)
   printf("%d move_before size\n", li->size == 6 && lu->size == 3);
   printf("%d move_before li/lu checklist\n", checklist(li) && checklist(lu));
   CList_move_front(lu->begin, lu->end, li);
+  printlist(lu);
   printf("%d move_front all\n", CList_ffind_front(li, ofn1) == CLink_next(CList_begin(li), 4));
   printf("%d move_front li/lu checklist\n", checklist(li) && checklist(lu));
   printf("%d move_front all size begin/end\n", li->size == 9 && lu->size == 0 && !lu->begin && !lu->end);
@@ -211,9 +214,28 @@ int		main(void)
   printf("%d move_after li/lu checklist\n", checklist(li) && checklist(lu));
   printf("%d move_after (same list) size begin/end\n", li->size == 9 && li->end == CList_ffind_front(li, ofn0) && ((Obj*)li->begin->data)->a == 21);
 
+  printlist(lu);
+  CList_move_back(li->begin, li->begin->next->next, lu);
+  printf("%d move_back (lu empty) li/lu checklist\n", checklist(li) && checklist(lu));
+  printf("%d move_back lu begin/end\n", ((Obj*)lu->begin->data)->a == 21 && ((Obj*)lu->end->data)->a == 2);
+  printf("%d move_back li/lu size\n", CList_size(lu) == 3 && CList_size(li) == 6);
+  CList_move_front(lu->begin, lu->end, lu);
+  CList_move_back(lu->begin, lu->end, lu);
+  CList_move_back(lu->begin, lu->begin, lu);
+  printf("%d move_back (one link) lu begin/end\n", ((Obj*)lu->begin->data)->a == 1 && ((Obj*)lu->end->data)->a == 21);
+  CList_move_after(CList_ffind_front(li, ofn4), CList_ffind_front(li, ofn4), CList_ffind_front(li, ofn0));
+  printf("%d move_after (one link) li begin/end\n", ((Obj*)li->begin->data)->a == 3 && ((Obj*)li->end->data)->a == 4);
+  CList_move_before(CList_ffind_front(li, ofn4), CList_ffind_front(li, ofn4), CList_ffind_front(li, ofn3));
+  printf("%d move_before (one link) li begin/end\n", ((Obj*)li->begin->data)->a == 4 && ((Obj*)li->end->data)->a == 0);
+  CList_move_back(li->begin, li->end, lu);
+  CList_move_back(lu->begin, lu->end, li);
+  printf("%d move_back li/lu size\n", CList_size(li) == 9 && CList_size(lu) == 0);
+
   printlist(li);
   printlist(lu);
   
-  CList_clear(li);
+  CList_clear(&list0);
+  CList_clear(&list1);
+  CList_clear(&list2);
   return 0;
 }
