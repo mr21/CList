@@ -15,7 +15,10 @@ CList*		CList_merge_back(CList* li, CList* la)
 {
   if (li != la && la && la->size)
     {
-      li->end->next = la->begin;
+      if (li->size)
+	li->end->next = la->begin;
+      else
+	li->begin = la->begin;
       la->begin->prev = li->end;
       li->end = la->end;
       add(li, la);
@@ -27,7 +30,10 @@ CList*		CList_merge_front(CList* li, CList* la)
 {
   if (li != la && la && la->size)
     {
-      li->begin->prev = la->end;
+      if (li->size)
+	li->begin->prev = la->end;
+      else
+	li->end = la->end;
       la->end->next = li->begin;
       li->begin = la->begin;
       add(li, la);
