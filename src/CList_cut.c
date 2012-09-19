@@ -1,29 +1,31 @@
 #include	<stdlib.h>
 #include	"CList.h"
 
-CList*		CList_cut(CLink* lna, CLink* lnb)
+void		CList_extract(CLink* lna, CLink* lnb, CList* newli)
 {
   CList*	li = lna->list;
+
+  newli->begin = lna;
+  newli->end = lnb;
+  newli->size = CList_count_n_li(lna, lnb, newli);
+  li->size -= newli->size;
+  if (lna->prev)
+    lna->prev->next = lnb->next;
+  else
+    li->begin = lnb->next;
+  if (lnb->next)
+    lnb->next->prev = lna->prev;
+  else
+    li->end = lna->prev;
+  lna->prev = lnb->next = NULL;
+}
+
+CList*		CList_cut(CLink* lna, CLink* lnb)
+{
   CList*	la = malloc(sizeof *la);
-  size_t	sz;
 
   if (la)
-    {
-      sz = CList__len_n_li(lna, lnb, la);
-      la->begin = lna;
-      la->end = lnb;
-      la->size = sz;
-      li->size -= sz;
-      if (lna->prev)
-	lna->prev->next = lnb->next;
-      else
-	li->begin = lnb->next;
-      if (lnb->next)
-	lnb->next->prev = lna->prev;
-      else
-	li->end = lna->prev;
-      la->begin->prev = lnb->next = NULL;
-    }
+    CList_extract(lna, lnb, la);
   return la;
 }
 
