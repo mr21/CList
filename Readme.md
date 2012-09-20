@@ -1,8 +1,8 @@
 **CList**
 =========================================================================================================
 
-CList est mon système de liste chaînée générique en C (d'où **C**List (j'ai pas cherché vraiment loin...).  
-J'essaye de faire en sorte qu'il puisse satisfaire n'importe quel type de projets !  
+CList est mon système de liste chaînée en C (d'où **C**List (j'ai pas vraiment cherché loin...).  
+J'ai essayé de faire en sorte que cette lib' puisse satisfaire n'importe quel type de projets !  
 
 **Mode d'emploi** (l'écriture de ce manuel n'est pas totalement fini) :  
 
@@ -12,13 +12,13 @@ J'essaye de faire en sorte qu'il puisse satisfaire n'importe quel type de projet
 * [Find](#find)
 * [Merge](#merge)
 * [Cut](#cut)
+* [Move](#move)
 
 
 Init / Clear
 ---------------------------------------------------------------------------------------------------------
 Les deux fonctions de bases à connaitre sont celles qui initialisent et detruisent une liste (`CList*`).  
 
-    /* Init / Clear */
     void                    CList_init (CList*);
     void                    CList_clear(CList*);
 
@@ -29,7 +29,6 @@ Push
 ---------------------------------------------------------------------------------------------------------
 L'action la plus élémentaire est celle d'ajouter un maillon à une liste, c'est pourtant la plus complexe à bien comprendre... :S  
 
-    /* Push / Add */
     CLink*      CList_push_back  (CList* list, void* data, size_t size, void (*destr)());
     CLink*      CList_push_front (CList* list, void* data, size_t size, void (*destr)());
     CLink*    	CList_push_after (CLink* link, void* data, size_t size, void (*destr)());
@@ -68,7 +67,6 @@ Pop
 Comment faire pour supprimer un maillon d'une liste ?  
 Il y a plusieurs methodes pour ça :
 
-    /* Pop / Delete */
     CLink*      CList_pop      (CLink*);
     CLink*      CList_pop_back (CList*);
     CLink*      CList_pop_front(CList*);
@@ -86,13 +84,11 @@ Find
 ---------------------------------------------------------------------------------------------------------
 Pour rechercher un maillon dans toute une liste j'ai écris huit fonctions que voici (ça devrait suffir je pense) :
 
-    /* Find...            */
-    /*     ...by pointer  */
     CLink*      CList_pfind_back  (CList const*, void const*);
     CLink*      CList_pfind_front (CList const*, void const*);
     CLink*      CList_pfind_after (CLink const*, void const*);
     CLink*      CList_pfind_before(CLink const*, void const*);
-    /*     ...by function */
+    
     CLink*      CList_ffind_back  (CList const*, int (*f)());
     CLink*      CList_ffind_front (CList const*, int (*f)());
     CLink*      CList_ffind_after (CLink const*, int (*f)());
@@ -126,7 +122,6 @@ Merge
 ---------------------------------------------------------------------------------------------------------
 Il est possible de merger une liste avec une autre (ou **dans** une autre), via quatres fonctions.  
 
-    /* Merge */
     CList*      CList_merge_back  (CList* li, CList* la);
     CList*      CList_merge_front (CList* li, CList* la);
     CList*      CList_merge_after (CLink* ln, CList* la);
@@ -149,7 +144,6 @@ Cut
 On peut voir **cut** comme l'inverse de **merge**.  
 **cut** permet de couper une liste en deux, les trois fonctions ci-dessous vont créer une nouvelle liste (`CList*`) qu'il sera necéssaire de `free` par la suite.  
 
-    /* Cut */
     CList*    	CList_cut      (CLink* lna, CLink* lnb);
     CList*		CList_cut_back (CLink*);
     CList*		CList_cut_front(CLink*);
@@ -182,3 +176,55 @@ Le maillon 3 et 7 de la liste _*li_ se sont raccrochés.
 **Rappel** : Les trois fonctions expliquées ci-dessus font un `malloc`, il faudra donc `free` leurs retours systématiquement.  
 **Note** : Actuellement, Il est impératif à ce que le maillon `lna` se trouve avant `lnb` pour `CList_cut`.  
 **Note** : Toutes les mini-fonction *find_4; find_6;* etc. n'existe évidemment pas, il faut les coder vous-même.  
+
+Move
+---------------------------------------------------------------------------------------------------------
+
+Les fonctions **move** servent à déplacer un ensemble de maillons contigus à un autre endroit dans la liste ou dans une liste différente !  
+
+    CList*    		CList_move_back  (CLink* lna, CLink* lnb, CList* la);
+    CList*			CList_move_front (CLink* lna, CLink* lnb, CList* la);
+    CList*			CList_move_after (CLink* lna, CLink* lnb, CLink* lnc);
+    CList*			CList_move_before(CLink* lna, CLink* lnb, CLink* lnc);
+
+Exemples prenons deux listes (li et la) :  
+
+    CList li = 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
+    CList la = 
+
+    CList_move_back(CList_ffind_front(&li, find_3), CList_ffind_front(&li, find_6), la);
+
+    CList li = 0 - 1 - 2 - 7 - 8 - 9
+    CList la = 3 - 4 - 5 - 6
+
+    CList_move_front(CList_ffind_front(&li, find_2), CList_ffind_front(&li, find_8), li);
+
+    CList li = 2 - 7 - 8 - 0 - 1 - 9
+    CList la = 3 - 4 - 5 - 6
+
+    CList_move_back(CList_begin(&la), CList_begin(&la), la);
+
+    CList li = 2 - 7 - 8 - 0 - 1 - 9
+    CList la = 4 - 5 - 6 - 3
+
+    CList_move_after(CList_ffind_front(&li, find_0), CList_ffind_front(&li, find_9), CList_ffind_front(&la, find_5));
+
+    CList li = 2 - 7 - 8
+    CList la = 4 - 5 - 0 - 1 - 9 - 6 - 3
+
+    CList_move_front(CList_begin(&la), CList_end(&la), li);
+
+    CList li = 4 - 5 - 0 - 1 - 9 - 6 - 3 - 2 - 7 - 8
+    CList la = 
+
+Voilà je pense que ces quelques exemples sont bien plus parlant qu'autre chose ^^  
+Ah oui, il ne faut surtout pas oublier que chaque maillon sait dans quelle liste il se trouve. C'est pour ça que toutes ces fonctions prennent très peu d'argument.  
+
+Bon cependant ces fonctions sont un peu casse gueule dans le sens ou il faut que les deux premiers maillons (`*lna` et `*lnb`) soient de la même liste ET qu'ils soient dans le bon ordre (`*lna` avant `*lnb`). Il faut aussi que `*lnc` ne soit pas entre `*lna` et `*lnb`.  
+
+Je compte plus tard faire des fonctions avec un suffixe `_secure` qui feront attention à tout ça.  
+Exemple : `CList_move_after_secure` etc.
+
+Bref, voilà je pense avoir fini :)  
+
+Bisous <3
