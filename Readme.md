@@ -1,10 +1,10 @@
 **CList**
 =========================================================================================================
 
-CList est mon système de liste chaînée en C (d'où **C**List (j'ai pas vraiment cherché loin...).  
+CList est mon système de liste chaînée en C (d'où **C**List (j'ai pas vraiment cherché loin...)).  
 J'ai essayé de faire en sorte que cette lib' puisse satisfaire n'importe quel type de projets !  
 
-**Mode d'emploi** (l'écriture de ce manuel n'est pas totalement fini) :  
+**Mode d'emploi** :  
 
 * [Init / Clear](#init--clear)
 * [Push](#push)
