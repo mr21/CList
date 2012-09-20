@@ -2,9 +2,17 @@
 =========================================================================================================
 
 CList est mon système de liste chaînée générique en C (d'où **C**List (j'ai pas cherché vraiment loin...).  
-J'essaye de faire en sorte qu'il puisse satisfaire tous les projets et inimaginable (faut reussir à penser à tout, ce n'est pas fort simple, m'enfin..) !  
+J'essaye de faire en sorte qu'il puisse satisfaire n'importe quel type de projets !  
 
-Donc voici un mode d'emploi (**dont l'écriture n'est pas fini**) pour comment l'utiliser comme il faut toussa toussa.  
+**Mode d'emploi** (l'écriture de ce manuel n'est pas totalement fini) :  
+
+* [Init / Clear](#init--clear)
+* [Push](#push)
+* [Pop](#pop)
+* [Find](#find)
+* [Merge](#merge)
+* [Cut](#cut)
+
 
 Init / Clear
 ---------------------------------------------------------------------------------------------------------
