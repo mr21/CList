@@ -2,7 +2,7 @@ NAME		=	libCList.so
 
 CC		=	gcc
 CFLAGS		=	-Wall -Wextra -ansi -pedantic -fPIC
-CFLAGS		+=	-Iinc/
+CFLAGS		+=	-Iinc/CList
 
 RM		=	@rm -f
 

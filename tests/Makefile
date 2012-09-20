@@ -1,6 +1,7 @@
 NAME		=	a.out
 CC		=	gcc
-CFLAGS		=	-Wall -Wextra -ansi -pedantic -I../inc/
+CFLAGS		=	-Wall -Wextra -ansi -pedantic
+CFLAGS		+=	-I../inc/CList
 LDFLAGS		=	../libCList.so
 
 RM		=	@rm -f
