@@ -38,7 +38,7 @@ D'une manière générale les nouveaux maillons se mettent à la fin ou au débu
 Ces deux fonctions ont le même comportement et reçoivent chacune quatre arguments :  
 * __*list*__ : un pointeur vers la liste dans laquelle nous voulons mettre un nouveau maillon.
 * __*data*__ : un pointeur vers les données du nouveau maillon.
-* __*size*__ : le *sizeof* des données, mais **uniquement** si l'on souhaite que les data soient **ancrées** dans le maillon. Dans le cas le plus courant qui consiste à passer le retour d'un malloc, il faut mettre `0`. Tout ce système complexe pour se passer d'un malloc par maillon dans certain cas.
+* __*size*__ : le *sizeof* des données, mais **uniquement** si l'on souhaite que les data soient **ancrées** dans le maillon. Dans le cas le plus courant qui consiste à passer le retour d'un malloc, il faut mettre `0`. Tout ce système complexe a été conçu pour se passer d'un malloc par maillon dans certain cas.
 * __*destr*__ : le destructeur, chaque maillon possède un pointeur vers un destructeur (pratique pour les merges de liste), dans le cas où vous envoyez le retour d'un malloc il vous suffit de mettre `free`. Si vous ne voulez pas de destructeur pour votre maillon passez-lui `NULL` (très utile dans le cas où vous ancrez les data directement dans le maillon).  
 
 Ceci dit il est possible de vouloir rajouter un maillon à un endroit bien précis dans la liste, pour ceci il y a _after_ et _before_ :  
@@ -189,30 +189,30 @@ Les fonctions **move** servent à déplacer un ensemble de maillons contigus à 
 
 Exemples prenons deux listes (li et la) :  
 
-    CList li = 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
-    CList la = 
+    CList* li = 0 - 1 - 2 - 3 - 4 - 5 - 6 - 7 - 8 - 9
+    CList* la = 
 
-    CList_move_back(CList_ffind_front(&li, find_3), CList_ffind_front(&li, find_6), la);
+    CList_move_back(CList_ffind_front(li, find_3), CList_ffind_front(li, find_6), la);
 
     CList li = 0 - 1 - 2 - 7 - 8 - 9
     CList la = 3 - 4 - 5 - 6
 
-    CList_move_front(CList_ffind_front(&li, find_2), CList_ffind_front(&li, find_8), li);
+    CList_move_front(CList_ffind_front(li, find_2), CList_ffind_front(li, find_8), li);
 
     CList li = 2 - 7 - 8 - 0 - 1 - 9
     CList la = 3 - 4 - 5 - 6
 
-    CList_move_back(CList_begin(&la), CList_begin(&la), la);
+    CList_move_back(CList_begin(la), CList_begin(la), la);
 
     CList li = 2 - 7 - 8 - 0 - 1 - 9
     CList la = 4 - 5 - 6 - 3
 
-    CList_move_after(CList_ffind_front(&li, find_0), CList_ffind_front(&li, find_9), CList_ffind_front(&la, find_5));
+    CList_move_after(CList_ffind_front(li, find_0), CList_ffind_front(li, find_9), CList_ffind_front(la, find_5));
 
     CList li = 2 - 7 - 8
     CList la = 4 - 5 - 0 - 1 - 9 - 6 - 3
 
-    CList_move_front(CList_begin(&la), CList_end(&la), li);
+    CList_move_front(CList_begin(la), CList_end(la), li);
 
     CList li = 4 - 5 - 0 - 1 - 9 - 6 - 3 - 2 - 7 - 8
     CList la = 
