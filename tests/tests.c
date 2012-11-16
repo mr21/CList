@@ -34,10 +34,14 @@ int		printlist(CList* li)
 int		checklist(CList* li)
 {
   CLink*	ln = li->begin;
+  CLink*	tmp = NULL;
 
   for (; ln; ln = ln->next)
-    if (ln->list != li)
-      return 0;
+    {
+      if (ln->prev != tmp || ln->list != li)
+	return 0;
+      tmp = ln;
+    }
   return 1;
 }
 
@@ -231,9 +235,23 @@ int		main(void)
   CList_move_back(lu->begin, lu->end, li);
   printf("%d move_back li/lu size\n", CList_size(li) == 9 && CList_size(lu) == 0);
 
-  printlist(li);
   printlist(lu);
-  
+
+  CList_popn(li->begin, li->begin);
+  CList_popn(li->end, li->end);
+  printf("%d popn\n", CList_size(li) == 7 && checklist(li));
+  CList_popn(CList_prev(li, 1), li->end);
+  printf("%d popn end\n", CList_size(li) == 5 && checklist(li));
+  CList_popn(li->begin, CList_next(li, 1));
+  printf("%d popn begin\n", CList_size(li) == 3 && checklist(li));
+  CList_push_back(li, o(6, 666666), 0, free);
+  CList_popn(li->begin->next, li->end->prev);
+  printf("%d popn middle\n", CList_size(li) == 2 && checklist(li));
+  CList_popn(li->begin, li->end);
+  printf("%d popn all\n", CList_size(li) == 0 && checklist(li));
+
+  printlist(li);
+
   CList_clear(&list0);
   CList_clear(&list1);
   CList_clear(&list2);

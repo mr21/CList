@@ -54,3 +54,27 @@ CLink*		CList_pop(CLink* ln)
   free(ln);
   return ln_ret;
 }
+
+CLink*		CList_popn(CLink* a, CLink* b)
+{
+  CList*	li = a->list;
+  CLink*	ln = a, *tmp, *b_next = b->next;
+
+  if (!a->prev)
+    li->begin = b->next;
+  else
+    a->prev->next = b->next;
+  if (!b->next)
+    li->end = a->prev;
+  else
+    b->next->prev = a->prev;
+  for (; ln != b_next; ln = tmp)
+    {
+      tmp = ln->next;
+      if (ln->free)
+        ln->free(ln->data);
+      free(ln);
+      --li->size;
+    }
+  return tmp;
+}
