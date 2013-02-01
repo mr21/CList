@@ -4,9 +4,7 @@
 CList est mon système de liste chaînée en C (d'où **C**List (j'ai pas vraiment cherché loin...)).  
 J'ai essayé de faire en sorte que cette lib' puisse satisfaire n'importe quel type de projets !  
 
-Pour simplifier l'utilisation, j'ai rassemblé tous les fichiers sources en un seul et unique .c via :  
-`cat ``find sources/src/ -name '*.c'`` > CList.c`  
-
+Pour simplifier l'utilisation, j'ai rassemblé tous les .c en un seul et unique fichier source.  
 
 **Mode d'emploi** :  
 
