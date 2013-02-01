@@ -1,12 +1,12 @@
-NAME		=	a.out
+NAME		=	demo
 CC		=	gcc
 CFLAGS		=	-Wall -Wextra -ansi -pedantic
-CFLAGS		+=	-I../inc/CList
+CFLAGS		+=	-I../inc/
 LDFLAGS		=	../libCList.so
 
 RM		=	@rm -f
 
-OBJ		=	tests.o
+OBJ		=	demo.o
 
 $(NAME)		:	$(OBJ)
 			$(CC) -o $(NAME) $(OBJ) $(CFLAGS) $(LDFLAGS)
