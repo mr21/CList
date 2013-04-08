@@ -1,6 +1,6 @@
+#include	"CList.h"
 #include	<stdlib.h>
 #include	<stdio.h>
-#include	"CList.h"
 
 typedef		struct
 {
