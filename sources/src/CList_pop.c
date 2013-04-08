@@ -58,7 +58,7 @@ CLink*		CList_pop(CLink* ln)
 CLink*		CList_popn(CLink* a, CLink* b)
 {
   CList*	li = a->list;
-  CLink*	ln = a, *tmp, *b_next = b->next;
+  CLink*	ln = a, *tmp = NULL, *b_next = b->next;
 
   if (!a->prev)
     li->begin = b->next;

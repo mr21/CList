@@ -1,131 +1,57 @@
 #include	"CList.h"
 
-size_t		CList_size (CList const* li)           { return li ? li->size  : 0;             }
-int		CList_empty(CList const* li)           { return li ? !li->size : 1;             }
-CLink*		CList_begin(CList const* li)           { return li ? li->begin : NULL;          }
-CLink*		CList_end  (CList const* li)           { return li ? li->end   : NULL;          }
-CLink*          CList_next (CList const* li, size_t n) { return CLink_next(CList_begin(li), n); }
-CLink*          CList_prev (CList const* li, size_t n) { return CLink_prev(CList_end(li), n);   }
-#include	"CList.h"
+CList*		CLink_list(CLink const* ln)      { return ln ? ln->list : NULL; }
+void*		CLink_data(CLink const* ln)      { return ln ? ln->data : NULL; }
+void		(*CLink_free(CLink const* ln))() { return ln ? ln->free : NULL; }
 
-CList*		CList_move_back(CLink* lna, CLink* lnb, CList* li)
+CLink*		CLink_prev(CLink const* ln, size_t n)
 {
-  CList		tmpli;
-
-  CList_extract(lna, lnb, &tmpli);
-  return CList_merge_back(li, &tmpli);
+  for (; ln && n; ln = ln->prev, --n);
+  return (CLink*)ln;
 }
 
-CList*		CList_move_front(CLink* lna, CLink* lnb, CList* li)
+CLink*		CLink_next(CLink const* ln, size_t n)
 {
-  CList		tmpli;
-
-  CList_extract(lna, lnb, &tmpli);
-  return CList_merge_front(li, &tmpli);
-}
-
-CList*		CList_move_after(CLink* lna, CLink* lnb, CLink* lnc)
-{
-  CList		tmpli;
-
-  CList_extract(lna, lnb, &tmpli);
-  return CList_merge_after(lnc, &tmpli);
-}
-
-CList*		CList_move_before(CLink* lna, CLink* lnb, CLink* lnc)
-{
-  CList		tmpli;
-
-  CList_extract(lna, lnb, &tmpli);
-  return CList_merge_before(lnc, &tmpli);
+  for (; ln && n; ln = ln->next, --n);
+  return (CLink*)ln;
 }
 #include	<stdlib.h>
 #include	"CList.h"
 
-void		CList_init(CList* li)
-{
-  li->begin = li->end = NULL;
-  li->size = 0;
-}
-#include	<stdlib.h>
-#include	"CList.h"
-
-CLink*		CList_pop_front(CList* li)
+void		CList_clear(CList* li)
 {
   CLink*	ln = li->begin;
+  CLink*	tmp;
 
-  if (!ln)
-    return NULL;
-  --li->size;
-  if (!(li->begin = ln->next))
-    li->end = NULL;
-  else
-    li->begin->prev = NULL;
-  if (ln->free)
-    ln->free(ln->data);
-  free(ln);
-  return li->begin;
-}
-
-CLink*		CList_pop_back(CList* li)
-{
-  CLink*	ln = li->end;
-
-  if (!ln)
-    return NULL;
-  --li->size;
-  if (!(li->end = ln->prev))
-    li->begin = NULL;
-  else
-    li->end->next = NULL;
-  if (ln->free)
-    ln->free(ln->data);
-  free(ln);
-  return li->end;
-}
-
-CLink*		CList_pop(CLink* ln)
-{
-  CList*	li = CLink_list(ln);
-  CLink*	ln_ret;
-
-  if (!li)
-    return NULL;
-  if (ln == li->begin)
-    return CList_pop_front(li);
-  if (ln == li->end)
-    return CList_pop_back(li), NULL;
-  ln->prev->next = ln_ret = ln->next;
-  ln->next->prev = ln->prev;
-  --li->size;
-  if (ln->free)
-    ln->free(ln->data);
-  free(ln);
-  return ln_ret;
-}
-
-CLink*		CList_popn(CLink* a, CLink* b)
-{
-  CList*	li = a->list;
-  CLink*	ln = a, *tmp, *b_next = b->next;
-
-  if (!a->prev)
-    li->begin = b->next;
-  else
-    a->prev->next = b->next;
-  if (!b->next)
-    li->end = a->prev;
-  else
-    b->next->prev = a->prev;
-  for (; ln != b_next; ln = tmp)
+  for (; ln; ln = tmp)
     {
       tmp = ln->next;
       if (ln->free)
-        ln->free(ln->data);
+	ln->free(ln->data);
       free(ln);
-      --li->size;
     }
-  return tmp;
+  li->begin = li->end = NULL;
+  li->size = 0;
+}
+#include	"CList.h"
+
+size_t		CList_count(CLink const* a, CLink const* b)
+{
+  size_t	n = 1;
+
+  for (; a && a != b; a = a->next)
+    ++n;
+  return n;
+}
+
+size_t		CList_count_n_li(CLink* a, CLink* b, CList const* li)
+{
+  size_t	s = 0;
+
+  do
+    ++s, a->list = (CList*)li;
+  while (a != b && (a = a->next));
+  return s;
 }
 #include	<stdlib.h>
 #include	"CList.h"
@@ -160,39 +86,6 @@ CList*		CList_cut(CLink* lna, CLink* lnb)
 
 CList*		CList_cut_back(CLink* ln)  { return CList_cut(ln, ln->list->end);   }
 CList*		CList_cut_front(CLink* ln) { return CList_cut(ln->list->begin, ln); }
-#include	<stdlib.h>
-#include	"CList.h"
-
-void		CList_clear(CList* li)
-{
-  CLink*	ln = li->begin;
-  CLink*	tmp;
-
-  for (; ln; ln = tmp)
-    {
-      tmp = ln->next;
-      if (ln->free)
-	ln->free(ln->data);
-      free(ln);
-    }
-  li->begin = li->end = NULL;
-  li->size = 0;
-}
-#include	"CList.h"
-
-void		CList_foreach(CList* li, int (*f)())
-{
-  CLink*	ln = CList_begin(li);
-
-  while (ln)
-    switch (f(ln->data))
-      {
-      case CLIST_CONTINUE:	ln = ln->next;		break;
-      case CLIST_ERASE:		ln = CList_pop(ln);	break;
-      case CLIST_ERASE_STOP:	CList_pop(ln);
-      default:			return;
-      }
-}
 #include	"CList.h"
 
 CLink*		CList_pfind_after(CLink const* ln, void const* data)
@@ -237,6 +130,37 @@ CLink*		CList_ffind_front(CList const* li, int (*f)())
 CLink*		CList_ffind_back(CList const* li, int (*f)())
 {
   return CList_ffind_before(CList_end(li), f);
+}
+#include	"CList.h"
+
+void		CList_foreach(CList* li, int (*f)())
+{
+  CLink*	ln = CList_begin(li);
+
+  while (ln)
+    switch (f(ln->data))
+      {
+      case CLIST_CONTINUE:	ln = ln->next;		break;
+      case CLIST_ERASE:		ln = CList_pop(ln);	break;
+      case CLIST_ERASE_STOP:	CList_pop(ln);
+      default:			return;
+      }
+}
+#include	"CList.h"
+
+size_t		CList_size (CList const* li)           { return li ? li->size  : 0;             }
+int		CList_empty(CList const* li)           { return li ? !li->size : 1;             }
+CLink*		CList_begin(CList const* li)           { return li ? li->begin : NULL;          }
+CLink*		CList_end  (CList const* li)           { return li ? li->end   : NULL;          }
+CLink*          CList_next (CList const* li, size_t n) { return CLink_next(CList_begin(li), n); }
+CLink*          CList_prev (CList const* li, size_t n) { return CLink_prev(CList_end(li), n);   }
+#include	<stdlib.h>
+#include	"CList.h"
+
+void		CList_init(CList* li)
+{
+  li->begin = li->end = NULL;
+  li->size = 0;
 }
 #include	<stdlib.h>
 #include	"CList.h"
@@ -316,20 +240,116 @@ CList*		CList_merge_before(CLink* ln, CList* la)
 }
 #include	"CList.h"
 
-CList*		CLink_list(CLink const* ln)      { return ln ? ln->list : NULL; }
-void*		CLink_data(CLink const* ln)      { return ln ? ln->data : NULL; }
-void		(*CLink_free(CLink const* ln))() { return ln ? ln->free : NULL; }
-
-CLink*		CLink_prev(CLink const* ln, size_t n)
+CList*		CList_move_back(CLink* lna, CLink* lnb, CList* li)
 {
-  for (; ln && n; ln = ln->prev, --n);
-  return (CLink*)ln;
+  CList		tmpli;
+
+  CList_extract(lna, lnb, &tmpli);
+  return CList_merge_back(li, &tmpli);
 }
 
-CLink*		CLink_next(CLink const* ln, size_t n)
+CList*		CList_move_front(CLink* lna, CLink* lnb, CList* li)
 {
-  for (; ln && n; ln = ln->next, --n);
-  return (CLink*)ln;
+  CList		tmpli;
+
+  CList_extract(lna, lnb, &tmpli);
+  return CList_merge_front(li, &tmpli);
+}
+
+CList*		CList_move_after(CLink* lna, CLink* lnb, CLink* lnc)
+{
+  CList		tmpli;
+
+  CList_extract(lna, lnb, &tmpli);
+  return CList_merge_after(lnc, &tmpli);
+}
+
+CList*		CList_move_before(CLink* lna, CLink* lnb, CLink* lnc)
+{
+  CList		tmpli;
+
+  CList_extract(lna, lnb, &tmpli);
+  return CList_merge_before(lnc, &tmpli);
+}
+#include	<stdlib.h>
+#include	"CList.h"
+
+CLink*		CList_pop_front(CList* li)
+{
+  CLink*	ln = li->begin;
+
+  if (!ln)
+    return NULL;
+  --li->size;
+  if (!(li->begin = ln->next))
+    li->end = NULL;
+  else
+    li->begin->prev = NULL;
+  if (ln->free)
+    ln->free(ln->data);
+  free(ln);
+  return li->begin;
+}
+
+CLink*		CList_pop_back(CList* li)
+{
+  CLink*	ln = li->end;
+
+  if (!ln)
+    return NULL;
+  --li->size;
+  if (!(li->end = ln->prev))
+    li->begin = NULL;
+  else
+    li->end->next = NULL;
+  if (ln->free)
+    ln->free(ln->data);
+  free(ln);
+  return li->end;
+}
+
+CLink*		CList_pop(CLink* ln)
+{
+  CList*	li = CLink_list(ln);
+  CLink*	ln_ret;
+
+  if (!li)
+    return NULL;
+  if (ln == li->begin)
+    return CList_pop_front(li);
+  if (ln == li->end)
+    return CList_pop_back(li), NULL;
+  ln->prev->next = ln_ret = ln->next;
+  ln->next->prev = ln->prev;
+  --li->size;
+  if (ln->free)
+    ln->free(ln->data);
+  free(ln);
+  return ln_ret;
+}
+
+CLink*		CList_popn(CLink* a, CLink* b)
+{
+  CList*	li = a->list;
+  CLink*	ln = a, *tmp = NULL, *b_next = b->next;
+
+  if (!a->prev)
+    li->begin = b->next;
+  else
+    a->prev->next = b->next;
+  if (!b->next)
+    li->end = a->prev;
+  else
+    b->next->prev = a->prev;
+  for (; ln != b_next; ln = tmp)
+    {
+      tmp = ln->next;
+      if (ln->free)
+        ln->free(ln->data);
+      free(ln);
+      --li->size;
+    }
+  return tmp;
 }
 #include	<stdlib.h>
 #include	<string.h>
@@ -416,24 +436,4 @@ CLink*		CList_push_before(CLink* ln, void* data, size_t sz, void (*destr)())
       ln->prev = new;
     }
   return new;
-}
-#include	"CList.h"
-
-size_t		CList_count(CLink const* a, CLink const* b)
-{
-  size_t	n = 1;
-
-  for (; a && a != b; a = a->next)
-    ++n;
-  return n;
-}
-
-size_t		CList_count_n_li(CLink* a, CLink* b, CList const* li)
-{
-  size_t	s = 0;
-
-  do
-    ++s, a->list = (CList*)li;
-  while (a != b && (a = a->next));
-  return s;
 }
